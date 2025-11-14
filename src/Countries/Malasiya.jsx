@@ -1,11 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react'; // Added useState
+import { motion, AnimatePresence } from 'framer-motion'; // Added AnimatePresence
 
 // --- Icons (from react-icons) ---
 // Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
-  FaBuilding, FaEnvelope, FaPhone, FaCheckCircle
+  FaBuilding, FaEnvelope, FaPhone, FaCheckCircle,
+  // --- ADDED ICONS ---
+  FaLaptopCode, FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach, FaExclamationTriangle
 } from 'react-icons/fa';
 
 // --- Page Data ---
@@ -56,6 +58,41 @@ const embassyInfo = {
   email: "mwislamabad@kln.gov.my",
   phone: "(92 51) 2072900"
 };
+
+// --- NEW: Malaysia-Specific FAQs ---
+const faqs = [
+  {
+    q: "Is the Malaysia E-Visa a multiple entry visa?",
+    a: "No, the standard E-Visa listed is for a single entry. Multiple entry e-visas may be available but have different requirements and are typically for business purposes."
+  },
+  {
+    q: "Can I extend my 1-month stay in Malaysia?",
+    a: "The sticker visa explicitly mentions it is 'extendable in Malaysia'. The e-visa is typically for a fixed 30-day period. Any extension must be applied for at the Malaysian Immigration Department *before* your visa expires."
+  },
+  {
+    q: "Which visa is faster, E-Visa or Sticker Visa?",
+    a: "The E-Visa is significantly faster, with a processing time of 4-7 days, compared to the 12-15 working days for the sticker visa."
+  }
+];
+
+// --- NEW: Malaysia-Specific Reviews ---
+const reviews = [
+  {
+    name: "Haris Q.",
+    quote: "Got my Malaysia e-visa from O.S. Travel in just 5 days. I'm a repeat customer, and they are the best in Islamabad for a reason. Highly recommended!",
+    rating: 5
+  },
+  {
+    name: "Sana & Family",
+    quote: "We booked our entire Kuala Lumpur & Langkawi tour with O.S. Travel. They handled our e-visas, flights, and hotels. Everything was perfect. Thank you, Mr. Obaid.",
+    rating: 5
+  },
+  {
+    name: "Imran Traders",
+    quote: "Applied for a sticker visa for my business trip. The process was smooth, and the team was very professional. Good service.",
+    rating: 5
+  }
+];
 
 // --- Framer Motion Variants ---
 const pageVariants = {
@@ -135,6 +172,72 @@ function Malaysia() {
         </ul>
       </motion.div>
 
+      {/* 4. About O.S. Travel Section */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12 bg-white p-6 md:p-8 rounded-lg shadow-lg"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Why Book with <span className="text-blue-600">O.S. Travel & Tours</span>?
+        </h2>
+        <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+          We are a leading travel agency in Islamabad, Pakistan, dedicated to ensuring your travel experience is seamless, comfortable, and memorable. 
+          <strong className="text-gray-800">We deal in a wide range of services</strong>, including being an authorized visa dropbox for Malaysia.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ServiceCard
+            icon={<FaPassport className="text-blue-500" />}
+            title="Authorized Dropbox"
+            desc="As an authorized agent, we provide fast and reliable Malaysia e-visa and sticker visa processing."
+          />
+          <ServiceCard
+            icon={<FaPlane className="text-green-500" />}
+            title="Air Ticketing"
+            desc="Get the best fares for flights to Kuala Lumpur, Langkawi, and beyond."
+          />
+          <ServiceCard
+            icon={<FaHotel className="text-purple-500" />}
+            title="Hotel Bookings"
+            desc="We book your hotels, from luxury resorts in KL to beach villas in Langkawi."
+          />
+          <ServiceCard
+            icon={<FaUmbrellaBeach className="text-yellow-500" />}
+            title="Tour Packages"
+            desc="We offer complete, customized holiday packages for your perfect trip to Malaysia."
+          />
+        </div>
+      </motion.div>
+
+      {/* 5. FAQ Section (The "Dropbox") */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 p-6 md:p-8">
+          Frequently Asked Questions
+        </h2>
+        <div className="border-t border-gray-200">
+          {faqs.map((faq, index) => (
+            <AccordionItem key={index} q={faq.q} a={faq.a} />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* 6. Review Section */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          What Our Clients Say
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {reviews.map((review, index) => (
+            <ReviewCard key={index} review={review} />
+          ))}
+        </div>
+      </motion.div>
+
       {/* Footer Note */}
       <motion.div variants={itemVariants} className="text-center mt-10 text-sm text-gray-500">
         <p>All fees and processing times are provided by O.S. Travel & Tours and are subject to change.</p>
@@ -152,6 +255,7 @@ function Malaysia() {
 const VisaCard = ({ visa, isSticker }) => {
   const borderColor = isSticker ? "border-blue-500" : "border-green-500";
   const textColor = isSticker ? "text-blue-500" : "text-green-500";
+  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />; // Use laptop icon for E-Visa
 
   return (
     <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
@@ -159,7 +263,7 @@ const VisaCard = ({ visa, isSticker }) => {
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
-          <FaPassport className={`text-4xl ${textColor}`} />
+          <div className={`text-4xl ${textColor}`}>{icon}</div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
             <p className="text-lg text-gray-500">{visa.subtitle}</p>
@@ -208,10 +312,73 @@ const VisaCard = ({ visa, isSticker }) => {
  */
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    <div className="text-2xl text-gray-600 mt-1">{icon}</div>
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Added shrink-0 */}
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className="text-lg font-bold text-gray-800">{value}</p>
+    </div>
+  </div>
+);
+
+/**
+ * An animated Accordion item for the FAQ section.
+ */
+const AccordionItem = ({ q, a }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-gray-200">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center w-full p-6 text-left"
+      >
+        <span className="text-lg font-semibold text-gray-800">{q}</span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-gray-500"
+        >
+          <FaChevronDown className="shrink-0" />
+        </motion.div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1, paddingTop: '0px', paddingBottom: '24px' }}
+            exit={{ height: 0, opacity: 0, paddingTop: '0px', paddingBottom: '0px' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <p className="text-gray-600 px-6">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+// --- Service Card Component ---
+const ServiceCard = ({ icon, title, desc }) => (
+  <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center flex flex-col items-center">
+    <div className="text-4xl mb-4">{icon}</div>
+    <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
+    <p className="text-gray-600">{desc}</p>
+  </div>
+);
+
+// --- Review Card Component ---
+const ReviewCard = ({ review }) => (
+  <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+    <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />
+    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p>
+    <div className="flex items-center justify-between">
+      <span className="text-lg font-semibold text-gray-800">{review.name}</span>
+      <div className="flex">
+        {[...Array(review.rating)].map((_, i) => (
+          <FaStar key={i} className="text-yellow-400" />
+        ))}
+      </div>
     </div>
   </div>
 );

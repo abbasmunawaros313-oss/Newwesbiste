@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap');
+@import "tailwindcss";
+/* Filename: styles.css */
+
+body {
+    font-family: 'Comfortaa', sans-serif;
+}
+
+/* --- Animated gradient border effect --- */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    #e13f3f,
+    #df2929,
+    #a80505,
+    #ff0000,
+    #f61616
+  );
+  animation: spin-border 5s linear infinite;
+  border-radius: 1rem; /* match the rounded-xl or rounded-lg you use */
+}
+
+.animated-border::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: white; /* inner background of the box */
+  border-radius: 0.75rem;
+  z-index: 1;
+}
+
+@keyframes spin-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(70deg);
+  }
+  40% {
+    transform: rotate(120deg);
+  }
+  50% {
+    transform: rotate(160deg);
+  }
+    70% {
+        transform: rotate(250deg);
+    }
+    90% {
+        transform: rotate(310deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

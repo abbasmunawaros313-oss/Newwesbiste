@@ -16,7 +16,7 @@ import {
 const eVisa = {
   title: "E-Visa (Tourist)",
   subtitle: "Online (Official Portal)",
-  totalFee: "USD 36",
+  totalFee: "PKR 15,000",
   processingTime: "3-5 Business Days",
   validity: "3 Months (from issue date)",
   stay: "30 Days",
@@ -33,7 +33,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa",
   subtitle: "Via Consulate",
-  totalFee: "Varies (Contact Consulate)",
+  totalFee: "Cambodia does not offer sticker visas in Pakistan",
   processingTime: "Varies",
   validity: "Varies",
   stay: "30 Days",

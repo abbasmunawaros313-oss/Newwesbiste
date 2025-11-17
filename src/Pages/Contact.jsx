@@ -73,7 +73,7 @@ function Contact() {
       {/* 1. Hero Section */}
       <div className="relative w-full h-64 md:h-72 bg-blue-500">
         <img
-          src="https://images.unsplash.com/photo-1587560699334-cc426240aE0f?q=80&w=2070&auto=format&fit=crop"
+          src="https://tnu.edu.eg/Design/assets/media/contact.jpg"
           alt="Contact us background"
           className="w-full h-full object-cover opacity-20"
         />

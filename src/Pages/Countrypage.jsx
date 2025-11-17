@@ -51,24 +51,26 @@ import Portugal from "../Countries/Portugal";
 import Switzerland from "../Countries/Switzerland";
 import Norway from "../Countries/Norway";
 import Netherlands from "../Countries/Netherlands";
-import Belgium from "../Countries/Belgium";
+import CzechRepublic from "../Countries/CzecgRepublic";
 import Ethopia from "../Countries/Ethopia";
 import SouthAfrica from "../Countries/SouthAfrica";
 import Zambia from "../Countries/Zambia";
+import Moroco from "../Countries/Moroco";
 
 
 const countryPages = {
   // --- Sorted Alphabetically ---
   australia: Australia,
+  morocco: Moroco,
   austria: Austria,
   azerbaijan: Azerbaijan,
   bahrain: Bahrain,
-  "beligum": Belgium, // NOTE: Removed duplicate 'beligum: Beligum' entry
+  belgium: Beligum, // NOTE: Removed duplicate 'beligum: Beligum' entry
   bulgaria: Bulgaria,
   cambodia: Combodia, // FIXED: Combodia -> Cambodia
   canada: Canada,
   china: China,
-  czechrepublic: CzecgRepublic, // FIXED: CzecgRepublic -> CzechRepublic
+  czechrepublic: CzechRepublic, // FIXED: CzecgRepublic -> CzechRepublic
   denmark: Denmark,
   egypt: Egypt,
   estonia: Estonia,

@@ -9,6 +9,11 @@ import Visas from './Pages/Visas';
 import Footer from './Components/Footer';
 import Chatbot from './Chatbot/Chatbot';
 import CountryPage from './Pages/Countrypage';
+import Whatsapp from './Chatbot/Whatsapp';
+import Sidefloat from './Components/Sidefloat';
+import HajandUmmrah from './Pages/HajandUmmrah';
+import Login from './Authentication/Login';
+import Signup from './Authentication/Signup';
 
 
 function App() {
@@ -24,6 +29,10 @@ function App() {
         <Route path="/fileprocessing" element={<FilePorocessing />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/visas" element={<Visas />} />
+        <Route path="/haj" element={<HajandUmmrah />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
 
         {/* Country Routes */}
         <Route path="/countries/:country" element={<CountryPage />} />
@@ -32,6 +41,8 @@ function App() {
       </Routes>
       <Footer/>
       <Chatbot/>
+      <Sidefloat/>
+      <Whatsapp/>
     </>
   );
 }

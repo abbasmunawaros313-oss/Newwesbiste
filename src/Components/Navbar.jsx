@@ -14,7 +14,10 @@ const navItems = [
   { name: "Visa", to: "/visas", dropdownType: "visa" },
   { name: "File Process", to: "/fileprocessing", dropdownType: "fileProcess" },
   { name: "Contact", to: "/contact" },
+  { name: "Haj and Ummrah", to: "/haj" },
+ 
 ];
+
 
 // --- 1. Simple Nav Link Component (for desktop) ---
 // UPDATED: Now uses NavLink to automatically handle active class
@@ -52,7 +55,7 @@ const VisaDropdown = () => {
     // --- UPDATED: Using your curated lists ---
     // Using Sets for fast lookup. Typos have been corrected.
     const curatedEuropeNames = new Set([
-      "Austria", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Estonia",
+      "Austria", "Belgium", "Bulgaria", "CzechRepublic", "Denmark", "Estonia",
       "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy",
       "Lithuania", "Netherlands", "Norway", "Poland", "Portugal", "Romania",
       "Spain", "Switzerland", "United Kingdom" // UK is part of Europe fetch
@@ -302,10 +305,10 @@ function Navbar() {
           </div>
           <div className="flex gap-6 items-center">
             <button className="cursor-pointer hover:text-blue-600 transition-colors">PKR</button>
-            <button className="cursor-pointer hover:text-blue-600 transition-colors">Sign in</button>
-            <button className="cursor-pointer border-blue-900 rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-5 py-2 transition-all duration-300 transform hover:scale-105">
+         <Link to="/login">   <button className="cursor-pointer hover:text-blue-600 transition-colors">Sign in</button></Link>
+        <Link to="/signup">     <button className="cursor-pointer border-blue-900 rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-5 py-2 transition-all duration-300 transform hover:scale-105"> 
               Create Account
-            </button>
+            </button> </Link>
           </div>
         </div>
 
@@ -356,10 +359,10 @@ function Navbar() {
             {/* Mobile Buttons */}
             <hr className="w-3/4 border-gray-200" />
             <div className="flex flex-col gap-6 items-center w-full px-8">
-              <button className="cursor-pointer hover:text-blue-600 transition-colors">Sign in</button>
-              <button className="cursor-pointer rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 transition-all duration-300 w-full">
+             <Link to="/login"><button className="cursor-pointer hover:text-blue-600 transition-colors">Sign in</button></Link>
+            <Link to="/signup">  <button className="cursor-pointer rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 transition-all duration-300 w-full">
                 Create Account
-              </button>
+              </button></Link>
               <button className="cursor-pointer text-lg">PKR</button>
             </div>
           </motion.div>

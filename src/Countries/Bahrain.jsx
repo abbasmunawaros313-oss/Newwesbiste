@@ -6,50 +6,56 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
-  // --- ADDED ICONS ---
   FaLaptopCode, FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// This data is based on common requirements and may differ from O.S. Travel & Tours.
+// NEW data based on your specific request
 
-const eVisa = {
-  title: "E-Visa (Tourist)",
+// Common documents for all e-visas
+const commonDocuments = [
+  "Scanned copy of Passport (valid 6+ months)",
+  "Scanned copy of CNIC",
+  "Recent passport-size photo scan (white background)",
+  "Confirmed return air ticket",
+  "Confirmed hotel booking in Bahrain",
+  "Last 6-month bank statement (min. $1000 balance)"
+];
+
+const eVisa14 = {
+  title: "Visit E-Visa (14 Days)",
   subtitle: "Online Application",
-  totalFee: "Starts from USD 29",
+  totalFee: "PKR 25,000",
   processingTime: "3-7 Working Days",
-  validity: "30 Days",
+  validity: "14 Days",
   stay: "14 Days",
   category: "Single Entry",
-  documents: [
-    "Scanned copy of Passport (valid 6+ months)",
-    "Scanned copy of CNIC",
-    "Recent passport-size photo scan (white background)",
-    "Confirmed return air ticket",
-    "Confirmed hotel booking in Bahrain",
-    "Last 6-month bank statement (min. $1000 balance)"
-  ],
-  note: "This is the most common visa. Fees are non-refundable."
+  documents: commonDocuments,
+  note: "Ideal for short trips. Fees are non-refundable."
 };
 
-const stickerVisa = {
-  title: "Sticker Visa",
-  subtitle: "From the Embassy",
-  totalFee: "PKR 22,000 (Approx.)",
-  processingTime: "10-15 Working Days",
+const eVisa30 = {
+  title: "Visit E-Visa (1 Month)",
+  subtitle: "Online Application",
+  totalFee: "PKR 35,000",
+  processingTime: "3-7 Working Days",
   validity: "30 Days",
-  stay: "14 Days",
+  stay: "1 Month",
   category: "Single Entry",
-  documents: [
-    "Original Passport (valid 6+ months)",
-    "4 passport-size photos (white background)",
-    "CNIC copy",
-    "Last 6-month bank statement",
-    "Bank account maintenance letter",
-    "Visa request letter",
-    "Return air ticket & hotel booking"
-  ],
-  note: "Requires in-person submission or via an agent."
+  documents: commonDocuments,
+  note: "For a standard holiday. Fees are non-refundable."
+};
+
+const eVisa1Year = {
+  title: "Visit E-Visa (1 Year)",
+  subtitle: "Online Application",
+  totalFee: "PKR 65,000",
+  processingTime: "3-7 Working Days",
+  validity: "1 Year",
+  stay: "Up to 30 Days (per entry)",
+  category: "Multiple Entry",
+  documents: commonDocuments,
+  note: "For frequent travelers. Fees are non-refundable."
 };
 
 const embassyInfo = {
@@ -58,7 +64,7 @@ const embassyInfo = {
   email: "islamabad.mission@mofa.gov.bh"
 };
 
-// --- NEW: Bahrain-Specific Reviews ---
+// --- UPDATED Bahrain-Specific Reviews ---
 const reviews = [
   {
     name: "Ali Raza",
@@ -72,16 +78,16 @@ const reviews = [
   },
   {
     name: "Zubair S.",
-    quote: "Good service for my sticker visa. It took some time, as they said, but all documents were handled professionally. Will use again.",
+    quote: "Good service for my 1-month e-visa. It took about 5 days, just as they said. All documents were handled by email. Will use again.",
     rating: 4
   }
 ];
 
-// --- NEW: Bahrain-Specific FAQs ---
+// --- UPDATED Bahrain-Specific FAQs ---
 const faqs = [
   {
-    q: "Is the Bahrain E-Visa guaranteed?",
-    a: "No, all visa applications are subject to approval by the Bahraini immigration authorities. However, ensuring all documents are correct and complete (which O.S. Travel assists with) maximizes your chances."
+    q: "What is the difference between the 14-day, 1-month, and 1-year e-visas?",
+    a: "They offer different lengths of stay and validity. The 14-day and 1-month visas are single entry, while the 1-year visa is multiple entry, allowing stays of up to 30 days per visit."
   },
   {
     q: "What is the minimum bank balance for the E-Visa?",
@@ -89,7 +95,7 @@ const faqs = [
   },
   {
     q: "Can I get a visa on arrival in Bahrain?",
-    a: "No, Pakistani passport holders are not eligible for a visa on arrival and must secure an E-Visa or Sticker Visa *before* traveling to Bahrain."
+    a: "No, Pakistani passport holders are not eligible for a visa on arrival and must secure an E-Visa *before* traveling to Bahrain."
   }
 ];
 
@@ -132,19 +138,19 @@ function Bahrain() {
             Bahrain Visa
           </h1>
           <p className="text-xl text-gray-600">
-            Visa Requirements for Pakistani Citizens
+            E-Visa Requirements for Pakistani Citizens
           </p>
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Comparison Grid - UPDATED TO 3 COLS */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
       >
-        {/* E-Visa is the primary option, so it gets the green border */}
-        <VisaCard visa={eVisa} isSticker={false} />
-        <VisaCard visa={stickerVisa} isSticker={true} />
+        <VisaCard visa={eVisa14} isSticker={false} />
+        <VisaCard visa={eVisa30} isSticker={false} />
+        <VisaCard visa={eVisa1Year} isSticker={true} /> {/* Use blue border for contrast */}
       </motion.div>
 
       {/* 3. Embassy Information */}
@@ -172,7 +178,7 @@ function Bahrain() {
         </ul>
       </motion.div>
 
-      {/* --- NEW: About O.S. Travel Section --- */}
+      {/* 4. About O.S. Travel Section */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white p-6 md:p-8 rounded-lg shadow-lg"
@@ -186,30 +192,29 @@ function Bahrain() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
-            icon={<FaPassport className="text-blue-500" />}
-            title="Visa Services"
-            desc="Expert assistance for E-Visas, Sticker Visas, and complex file preparation."
+            icon={<FaLaptopCode className="text-blue-500" />}
+            title="E-Visa Processing"
+            desc="Expert, fast processing for all Bahrain e-visa types (14-day, 1-month, and 1-year)."
           />
           <ServiceCard
             icon={<FaPlane className="text-green-500" />}
             title="Air Ticketing"
-            desc="Competitive pricing on all domestic and international flight bookings."
+            desc="Competitive pricing on Gulf Air, PIA, and all other airlines to Bahrain (BAH)."
           />
           <ServiceCard
             icon={<FaHotel className="text-purple-500" />}
             title="Hotel Bookings"
-            desc="Access to a wide range of hotel reservations to fit your budget."
+            desc="Access to a wide range of confirmed hotel bookings, a mandatory visa requirement."
           />
           <ServiceCard
             icon={<FaUmbrellaBeach className="text-yellow-500" />}
             title="Tour Packages"
-            desc="Customized holiday and spiritual (Umrah) packages for a perfect trip."
+            desc="Customized holiday and business travel packages to Manama and beyond."
           />
         </div>
       </motion.div>
-      {/* --- End: About O.S. Travel Section --- */}
       
-      {/* --- NEW: FAQ Section (The "Dropbox") --- */}
+      {/* 5. FAQ Section (The "Dropbox") */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden"
@@ -223,9 +228,8 @@ function Bahrain() {
           ))}
         </div>
       </motion.div>
-      {/* --- End: FAQ Section --- */}
 
-      {/* --- NEW: Review Section --- */}
+      {/* 6. Review Section */}
       <motion.div
         variants={itemVariants}
         className="mt-12"
@@ -239,7 +243,6 @@ function Bahrain() {
           ))}
         </div>
       </motion.div>
-      {/* --- End: Review Section --- */}
 
       {/* Footer Note */}
       <motion.div variants={itemVariants} className="text-center mt-10 text-sm text-gray-500">
@@ -259,16 +262,14 @@ function Bahrain() {
 const VisaCard = ({ visa, isSticker }) => {
   const borderColor = isSticker ? "border-blue-500" : "border-green-500";
   const textColor = isSticker ? "text-blue-500" : "text-green-500";
-  // UPDATED: Use FaLaptopCode for e-visa
-  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />;
+  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />; // Use Laptop for E-Visa
 
   return (
-    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
-      <div className="p-6 md:p-8">
+    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor} flex flex-col`}>
+      <div className="p-6 md:p-8 flex flex-col grow"> {/* Use grow */}
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
-          {/* UPDATED: Use icon variable */}
           <div className={`text-4xl ${textColor}`}>{icon}</div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
@@ -290,7 +291,7 @@ const VisaCard = ({ visa, isSticker }) => {
           <FaFileAlt className="text-gray-600" />
           Documents Required
         </h3>
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-3 mb-6 grow"> {/* Use grow */}
           {visa.documents.map((doc, index) => (
             <li key={index} className="flex items-start gap-3 text-gray-700">
               <FaCheckCircle className="text-green-500 mt-1.5 shrink-0" />
@@ -301,7 +302,7 @@ const VisaCard = ({ visa, isSticker }) => {
 
         {/* Non-refundable Note */}
         {visa.note && (
-          <div className="p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+          <div className="p-4 mt-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
             <div className="flex items-center gap-3">
               <FaExclamationTriangle className="text-xl" />
               <p className="font-semibold">{visa.note}</p>
@@ -316,11 +317,10 @@ const VisaCard = ({ visa, isSticker }) => {
 
 /**
  * A small component for displaying an icon, label, and value.
- * (This was missing from your provided code)
  */
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div>
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Use shrink-0 */}
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className="text-lg font-bold text-gray-800">{value}</p>
@@ -328,7 +328,7 @@ const DetailItem = ({ icon, label, value }) => (
   </div>
 );
 
-// --- NEW: Service Card Component ---
+// --- Service Card Component ---
 const ServiceCard = ({ icon, title, desc }) => (
   <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center flex flex-col items-center">
     <div className="text-4xl mb-4">{icon}</div>
@@ -337,11 +337,11 @@ const ServiceCard = ({ icon, title, desc }) => (
   </div>
 );
 
-// --- NEW: Review Card Component ---
+// --- Review Card Component ---
 const ReviewCard = ({ review }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
     <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />
-    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p>
+    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p> {/* Use grow */}
     <div className="flex items-center justify-between">
       <span className="text-lg font-semibold text-gray-800">{review.name}</span>
       <div className="flex">
@@ -353,7 +353,7 @@ const ReviewCard = ({ review }) => (
   </div>
 );
 
-// --- NEW: Accordion Item Component ---
+// --- Accordion Item Component ---
 const AccordionItem = ({ q, a }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -369,7 +369,7 @@ const AccordionItem = ({ q, a }) => {
           transition={{ duration: 0.3 }}
           className="text-gray-500"
         >
-          <FaChevronDown className="shrink-0" />
+          <FaChevronDown className="shrink-0" /> {/* Use shrink-0 */}
         </motion.div>
       </button>
       <AnimatePresence>

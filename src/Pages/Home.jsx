@@ -77,10 +77,10 @@ const mainNavItems = [
 
 // --- Data for Dropbox Countries ---
 const dropboxCountries = [
-  { name: "Malaysia", code: "my", to: "/visas/malaysia" },
-  { name: "Thailand", code: "th", to: "/visas/thailand" },
-  { name: "Indonesia", code: "id", to: "/visas/indonesia" },
-  { name: "Vietnam", code: "vn", to: "/visas/vietnam" },
+  { name: "Malaysia", code: "my", to: "/Countries/malaysia" },
+  { name: "Thailand", code: "th", to: "/Countries/thailand" },
+  { name: "Indonesia", code: "id", to: "/Countries/indonesia" },
+  { name: "Vietnam", code: "vn", to: "/Countries/vietnam" },
 ];
 
 // --- Data for Reviews ---

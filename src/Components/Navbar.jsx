@@ -357,14 +357,25 @@ function Navbar() {
             ))}
 
             {/* Mobile Buttons */}
-            <hr className="w-3/4 border-gray-200" />
-            <div className="flex flex-col gap-6 items-center w-full px-8">
-             <Link to="/login"><button className="cursor-pointer hover:text-blue-600 transition-colors">Sign in</button></Link>
-            <Link to="/signup">  <button className="cursor-pointer rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 transition-all duration-300 w-full">
-                Create Account
-              </button></Link>
-              <button className="cursor-pointer text-lg">PKR</button>
-            </div>
+            {/* Mobile Buttons */}
+<hr className="w-3/4 border-gray-200" />
+<div className="flex flex-col gap-6 items-center w-full px-8">
+  {/* UPDATED: Added onClick to close menu */}
+  <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+    <button className="cursor-pointer hover:text-blue-600 transition-colors">
+      Sign in
+    </button>
+  </Link>
+
+  {/* UPDATED: Added onClick to close menu */}
+  <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+    <button className="cursor-pointer rounded-xl bg-blue-500 text-white hover:bg-blue-600 px-6 py-3 transition-all duration-300 w-full">
+      Create Account
+    </button>
+  </Link>
+  
+  <button className="cursor-pointer text-lg">PKR</button>
+</div>
           </motion.div>
         )}
       </AnimatePresence>

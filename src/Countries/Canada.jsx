@@ -1,266 +1,415 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// --- Icons (from react-icons) ---
+// Make sure to install: npm install react-icons
 import {
-  MdPhone,
-  MdEmail,
-  MdLocationOn,
-  MdPerson,
-  MdSubject,
-} from "react-icons/md";
-import { useEffect } from "react";
-// --- Animation Variants ---
-const sectionVariant = {
-  hidden: { opacity: 0, y: 50 },
+  FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
+  FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
+  FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach,
+  FaFileSignature, // Icon for File Processing
+  FaCalendarCheck, // Icon for Appointment
+  FaDollarSign // Icon for CAD/USD
+} from "react-icons/fa"; // <--- FIXED: Was "react-icons/`fa"
+
+// --- Page Data ---
+// Data fetched directly from ostravels.com/schengen-visa-file-processing/canada-visa/
+
+const processingService = {
+  title: "Canada Visitor Visa",
+  subtitle: "Complete File Processing Service",
+  totalFee: "185 CAD + Service Charges", // 100 CAD Visa + 85 CAD Biometrics
+  processingTime: "10 to 35 Days (After Biometrics)", // From your site
+  validity: "Up to 10 Years (Multiple Entry)",
+  stay: "Up to 6 Months (per entry)",
+  category: "Temporary Resident Visa (TRV)",
+  // This is the core service you offer
+  serviceIncludes: [
+    "Complete Visa File Preparation",
+    "Online Application Portal (IRCC) Filing",
+    "Visa Appointment Scheduling at VFS Global (for Biometrics)",
+    "Travel Insurance (Canada Approved)",
+    "Confirmed Flight Reservation",
+    "Detailed Day-by-Day Itinerary",
+    "Confirmed Hotel Bookings for Itinerary"
+  ],
+  // These are the documents the *client* must provide
+  documents: [
+    "Original Passport (valid 6+ months) & all old passports",
+    "Pictures with White Background (35mm x 45mm)",
+    "Last 6-month Bank Statement & Maintenance Letter",
+    "CNIC Photo Copy (front & back)",
+    "Family Registration Certificate (FRC) or MRC",
+    "Income Tax Returns (last 2-3 years)",
+    "Employment Letter / Business Documents",
+    "Police Character Certificate",
+    "Invitation Letter / Sponsor Letter (if any)"
+  ],
+  note: "Govt. fee (185 CAD) and VFS Global fee are paid separately from our expert service charges. All fees are non-refundable."
+};
+
+const highCommissionInfo = {
+  title: "High Commission of Canada, Islamabad",
+  address: "Diplomatic Enclave, Sector G-5, Islamabad, Pakistan",
+  phone: "(051) 208 6000",
+  email: "ISBAD-IM-Enquiry@international.gc.ca",
+  note: "All visa applications are submitted online and biometrics are done at VFS Global."
+};
+
+const vfsInfo = {
+  title: "Canada Visa Application Centre (VFS Global)",
+  address: "Park Road, Chak Shahzad, (Opposite CDA Park), Islamabad",
+  phone: "0900 07860 (VFS Helpline)",
+  email: "info.canadapkk@vfshelpline.com",
+  note: "This is the official partner for submitting your biometrics (fingerprints and photo)."
+};
+
+// --- Canada-Specific FAQs ---
+const faqs = [
+  {
+    q: "What is the processing time for a Canada visa?",
+    a: "The processing time for a Canada visit visa from Pakistan is usually between 10 and 35 days, *after* you have given your biometrics at the VFS Global centre."
+  },
+  {
+    q: "Can I apply for a Canada e-visa?",
+    a: "The application is filed online, but it is not an e-visa. You must still schedule an *in-person* appointment at VFS Global to provide your biometrics (fingerprints and photo) to complete the application."
+  },
+  {
+    q: "What is 'Visa File Processing' for Canada?",
+    a: "It means O.S. Travel & Tours, as your consultant, handles the entire complex process. We fill the official IRCC online forms, help you gather all documents, pay your fees, and schedule your biometrics appointment at VFS. You just provide your personal documents."
+  }
+];
+
+// --- Canada-Specific Reviews ---
+const reviews = [
+  {
+    name: "Waqar A.",
+    quote: "The Canada visa process is very long and difficult, but O.S. Travel & Tours are true professionals. They built a very strong file for me and I got my 10-year visa. Thank you!",
+    rating: 5
+  },
+  {
+    name: "S. Malik",
+    quote: "I highly recommend their file processing service. They handled my online IRCC application and VFS appointment. I just had to show up for biometrics. Very smooth.",
+    rating: 5
+  },
+  {
+    name: "The Gill Family",
+    quote: "We used O.S. Travel for our family visitor visa to Toronto. They processed all our applications. The file was perfect, and the visa was approved. Thank you!",
+    rating: 5
+  }
+];
+
+// --- Framer Motion Variants ---
+const pageVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: "easeInOut",
-    },
-  },
+      duration: 0.5,
+      staggerChildren: 0.1
+    }
+  }
 };
 
-const cardContainerVariant = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.2,
-    },
-  },
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
-const cardVariant = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0 },
-};
-
-const formVariant = {
-  hidden: { opacity: 0, x: 30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeInOut",
-      delay: 0.2,
-    },
-  },
-};
-
-// --- Helper Card Component ---
-const InfoCard = ({ icon, title, children }) => (
-  <motion.div
-    variants={cardVariant}
-    className="flex items-start gap-4 p-6 bg-white rounded-lg shadow-md"
-  >
-    <div className="shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-      {React.cloneElement(icon, { className: "text-2xl text-blue-600" })}
-    </div>
-    <div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-1">{title}</h3>
-      <div className="text-gray-600 leading-relaxed">{children}</div>
-    </div>
-  </motion.div>
-);
-
-// --- Main Contact Page Component ---
-function Contact() {
-  useEffect(() => {
-    document.title = "Contact Us - O.S Travel & Tours"; // Dynamically sets title
-  }, []);
-
+// --- Main Component ---
+function Canada() {
   return (
-    <div className="w-full bg-gray-50 overflow-x-hidden">
-      {/* 1. Hero Section */}
-      <div className="relative w-full h-64 md:h-72 bg-blue-500">
+    <motion.div
+      className="container mx-auto p-4 md:p-10 bg-gray-50 min-h-screen"
+      variants={pageVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* 1. Page Header */}
+      <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
         <img
-          src="https://tnu.edu.eg/Design/assets/media/contact.jpg"
-          alt="Contact us background"
-          className="w-full h-full object-cover opacity-20"
+          src="https://flagcdn.com/w160/ca.png" // Canada flag
+          alt="Flag of Canada"
+          className="w-16 h-10 object-cover rounded shadow-md"
         />
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl md:text-6xl font-bold text-white mb-2"
-          >
-            Get in Touch
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-lg md:text-xl text-white opacity-90"
-          >
-            We're here to help you plan your next perfect trip.
-          </motion.p>
+        <div>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">
+            Canada Visa
+          </h1>
+          <p className="text-xl text-gray-600">
+            Visa File Processing for Pakistani Citizens
+          </p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* 2. Main Content (Info Cards & Form) */}
-      <section className="py-16 md:py-24 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          
-          {/* Left Column: Info Cards */}
-          <motion.div
-            variants={cardContainerVariant}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col gap-6"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-              Contact Information
-            </h2>
-            <p className="text-lg text-gray-600 mb-4 -mt-4">
-              Reach out to us via phone, email, or visit our office.
-            </p>
-
-            <InfoCard icon={<MdPhone />} title="Phone">
-              <a href="tel:0512120700" className="hover:text-blue-600 hover:underline">
-                051-2120700-701
-              </a>
-              <br />
-              <a href="tel:03335542877" className="hover:text-blue-600 hover:underline">
-                0333-5542877
-              </a>
-            </InfoCard>
-
-            <InfoCard icon={<MdEmail />} title="Email">
-              <a href="mailto:info@ostravels.com" className="hover:text-blue-600 hover:underline">
-                info@ostravels.com
-              </a>
-              <br />
-              <a href="mailto:ostravelsisb@gmail.com" className="hover:text-blue-600 hover:underline">
-                ostravelsisb@gmail.com
-              </a>
-            </InfoCard>
-
-            <InfoCard icon={<MdLocationOn />} title="Address">
-              <p>
-                Office # 3, Aaly Plaza, Fazal e Haq Rd, Block E G 6/2 Blue Area,
-                Islamabad
-              </p>
-            </InfoCard>
-          </motion.div>
-
-          {/* Right Column: Contact Form */}
-          <motion.div
-            variants={formVariant}
-            initial="hidden"
-            animate="visible"
-            className="bg-white p-6 sm:p-8 rounded-lg shadow-xl"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Send Us a Message
-            </h2>
-            <form className="space-y-5">
-              {/* Full Name */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <MdPerson className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                  <input
-                    type="text"
-                    id="name"
-                    placeholder="Your Full Name"
-                    className="w-full h-14 pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <MdEmail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="you@example.com"
-                    className="w-full h-14 pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                  Subject
-                </label>
-                <div className="relative">
-                  <MdSubject className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-                  <input
-                    type="text"
-                    id="subject"
-                    placeholder="e.g., Visa Inquiry, Tour Package"
-                    className="w-full h-14 pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              {/* Message */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows="5"
-                  placeholder="Write your message here..."
-                  className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                ></textarea>
-              </div>
-
-              {/* Submit Button */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-lg px-10 py-3 transition-colors"
-              >
-                Send Message
-              </motion.button>
-            </form>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 3. Map Section */}
-      <motion.section
-        variants={sectionVariant}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="w-full py-16 md:py-24 px-6 bg-white" // Changed to white for a seamless feel
+      {/* 2. Visa Card Section (File Processing) */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-1"
       >
-        <div className="text-center w-full max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-            Visit Us in Islamabad
-          </h2>
-          <div className="w-full overflow-hidden rounded-xl shadow-2xl border-4 border-white">
-            <iframe
-              width="100%"
-              height="450"
-              style={{ border: 0 }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              // This src is generated from your exact address and is the correct way to embed
-              src="https://maps.google.com/maps?q=Office%20%23%203%2C%20Aaly%20Plaza%2C%20Fazal%20e%20Haq%20Rd%2C%20Block%20E%20G%206%2F2%20Blue%20Area%2C%20Islamabad&t=&z=15&ie=UTF8&iwloc=&output=embed"
-            ></iframe>
-          </div>
+        <FileProcessingCard visa={processingService} />
+      </motion.div>
+
+      {/* 3. Embassy & VFS Information */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8"
+      >
+        <EmbassyCard info={highCommissionInfo} />
+        <EmbassyCard info={vfsInfo} />
+      </motion.div>
+
+      {/* 4. About O.S. Travel Section (Highlighting File Processing) */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12 bg-white p-6 md:p-8 rounded-lg shadow-lg"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Why Choose O.S. Travel for Your <span className="text-blue-600">Canada Visa</span>?
+        </h2>
+        <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+          As the "best and top travel consultant" in Islamabad, we specialize in Canadian visas.
+          <strong className="text-gray-800"> We deal in complete visa file processing and appointment scheduling</strong> to ensure your application is submitted correctly and efficiently for a high chance of success.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ServiceCard
+            icon={<FaFileSignature className="text-blue-500" />}
+            title="IRCC File Processing"
+            desc="Expert preparation of your entire application on the official IRCC portal."
+          />
+          <ServiceCard
+            icon={<FaCalendarCheck className="text-purple-500" />}
+            title="Biometrics Appointment"
+            desc="We secure the mandatory visa appointment date for you at VFS Global."
+          />
+          <ServiceCard
+            icon={<FaPlane className="text-green-500" />}
+            title="Flight & Hotel Bookings"
+            desc="We provide confirmed flight reservations and hotel bookings for your application."
+          />
+          <ServiceCard
+            icon={<FaHotel className="text-yellow-500" />}
+            title="Strong Itinerary"
+            desc="We build a strong travel plan to support your purpose of visit."
+          />
         </div>
-      </motion.section>
-    </div>
+      </motion.div>
+
+      {/* 5. FAQ Section (The "Dropbox") */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 p-6 md:p-8">
+          Frequently Asked Questions
+        </h2>
+        <div className="border-t border-gray-200">
+          {faqs.map((faq, index) => (
+            <AccordionItem key={index} q={faq.q} a={faq.a} />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* 6. Review Section */}
+      <motion.div
+        variants={itemVariants}
+        className="mt-12"
+      >
+        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          What Our Clients Say
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {reviews.map((review, index) => (
+            <ReviewCard key={index} review={review} />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Footer Note */}
+      <motion.div variants={itemVariants} className="text-center mt-10 text-sm text-gray-500">
+        <p>Visa approval is at the sole discretion of IRCC. O.S. Travel & Tours provides expert file preparation services.</p>
+      </motion.div>
+
+    </motion.div>
   );
 }
 
-export default Contact;
+// --- Reusable Sub-components ---
+
+/**
+ * A card component to display details for the File Processing service.
+ */
+const FileProcessingCard = ({ visa }) => {
+  return (
+    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 border-red-600`}> {/* Canada Red */}
+      <div className="p-6 md:p-8">
+        
+        {/* Card Header */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className={`text-4xl text-red-600`}><FaFileSignature /></div>
+          <div>
+            <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
+            <p className="text-lg text-gray-500">{visa.subtitle}</p>
+          </div>
+        </div>
+
+        {/* Details Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Total Govt. Fee" value={visa.totalFee} />
+          <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
+          <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Typical Validity" value={visa.validity} />
+        </div>
+
+        {/* Services Included */}
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <FaCheckCircle className="text-gray-600" />
+          Our Service Package Includes
+        </h3>
+        <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          {visa.serviceIncludes.map((doc, index) => (
+            <li key={index} className="flex items-start gap-3 text-gray-700">
+              <FaCheckCircle className="text-blue-500 mt-1.5 shrink-0" />
+              <span>{doc}</span>
+            </li>
+          ))}
+        </ul>
+        
+        {/* Documents List */}
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <FaFileAlt className="text-gray-600" />
+          Documents Required From You
+        </h3>
+        <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          {visa.documents.map((doc, index) => (
+            <li key={index} className="flex items-start gap-3 text-gray-700">
+              <FaCheckCircle className="text-green-500 mt-1.5 shrink-0" />
+              <span>{doc}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Note */}
+        {visa.note && (
+          <div className={`p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800`}>
+            <div className="flex items-center gap-3">
+              <FaExclamationTriangle className="text-xl shrink-0" />
+              <p className="font-semibold">{visa.note}</p>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
+/**
+ * A card for Embassy/VFS info.
+ */
+const EmbassyCard = ({ info }) => (
+  <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col">
+    <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3">
+      <FaBuilding className={info.title.includes("High Commission") ? "text-red-700" : "text-blue-700"} />
+      {info.title}
+    </h2>
+    <ul className="space-y-4 text-gray-700 text-lg grow"> {/* Use grow */}
+      <li className="flex items-start gap-4">
+        <FaBuilding className="text-gray-500 mt-1.5 shrink-0" />
+        <span><strong>Address:</strong> {info.address}</span>
+      </li>
+      <li className="flex items-start gap-4">
+        <FaPhone className="text-gray-500 mt-1.5 shrink-0" />
+        <span><strong>Phone:</strong> <a href={`tel:${info.phone.split(' / ')[0]}`} className="text-blue-600 hover:underline">{info.phone}</a></span>
+      </li>
+      <li className="flex items-start gap-4">
+        <FaEnvelope className="text-gray-500 mt-1.5 shrink-0" />
+        <span><strong>Email:</strong> <a href={`mailto:${info.email}`} className="text-blue-600 hover:underline">{info.email}</a></span>
+      </li>
+    </ul>
+    <div className="mt-6 p-4 bg-gray-100 border-l-4 border-gray-400 text-gray-800">
+      <div className="flex items-center gap-3">
+        <FaExclamationTriangle className="text-xl shrink-0" />
+        <p className="font-semibold text-sm">{info.note}</p>
+      </div>
+    </div>
+  </div>
+);
+
+/**
+ * A small component for displaying an icon, label, and value.
+ */
+const DetailItem = ({ icon, label, value }) => (
+  <div className="flex items-start gap-3">
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Use shrink-0 */}
+    <div>
+      <p className="text-sm font-semibold text-gray-500">{label}</p>
+      <p className="text-lg font-bold text-gray-800">{value}</p>
+    </div>
+  </div>
+);
+
+/**
+ * An animated Accordion item for the FAQ section.
+ */
+const AccordionItem = ({ q, a }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-gray-200">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center w-full p-6 text-left"
+      >
+        <span className="text-lg font-semibold text-gray-800">{q}</span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-gray-500"
+        >
+          <FaChevronDown className="shrink-0" /> {/* Use shrink-0 */}
+        </motion.div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1, paddingTop: '0px', paddingBottom: '24px' }}
+            exit={{ height: 0, opacity: 0, paddingTop: '0px', paddingBottom: '0px' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <p className="text-gray-600 px-6">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+// --- Service Card Component ---
+const ServiceCard = ({ icon, title, desc }) => (
+  <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center flex flex-col items-center">
+    <div className="text-4xl mb-4">{icon}</div>
+    <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
+    <p className="text-gray-600">{desc}</p>
+  </div>
+);
+
+// --- Review Card Component ---
+const ReviewCard = ({ review }) => (
+  <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+    <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />
+    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p> {/* Use grow */}
+    <div className="flex items-center justify-between">
+      <span className="text-lg font-semibold text-gray-800">{review.name}</span>
+      <div className="flex">
+        {[...Array(review.rating)].map((_, i) => (
+          <FaStar key={i} className="text-yellow-400" />
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+export default Canada;

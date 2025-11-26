@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom"; // Added NavLink
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useEffect } from "react";
 // --- Form Components (as you imported) ---
 import Flights from "../SildeComponents/Flights";
 import VisaForm from "../SildeComponents/VisaFrorm"; // <-- FIXED TYPO (was VisaFrorm)
 import Hotelform from "../SildeComponents/Hotelform";
 import InsurenceForm from "../SildeComponents/InsurenceForm";
+import Seopage from "../SildeComponents/Seopage";
 
 // --- Icons (from react-icons) ---
 import {
@@ -184,7 +185,11 @@ function Home() {
     }
   };
 
+   useEffect(() => {
+    document.title = "Home - O.S Travel & Tours"; // Dynamically sets title
+  }, []);
   return (
+    <>
     <div className="w-full bg-white overflow-x-hidden">
       
       {/* --- 1. HERO SECTION (Your Code) --- */}
@@ -456,6 +461,8 @@ function Home() {
         </div>
       </motion.section>
     </div>
+    <Seopage />
+    </>
   );
 }
 
@@ -537,6 +544,8 @@ const DropboxCard = ({ name, code, to }) => (
       </div>
     </Link>
   </motion.div>
+
+
 );
 
 export default Home;

@@ -15,7 +15,7 @@ import {
 
 const stickerVisa = {
   title: "Sticker Visa",
-  subtitle: "From the Embassy",
+  subtitle: " Not available right now from embassy",
   totalFee: "PKR 18,000",
   feeBreakdown: {
     embassy: "PKR 12,900",
@@ -38,8 +38,8 @@ const stickerVisa = {
 const eVisa = {
   title: "E-Visa",
   subtitle: "Online",
-  totalFee: "PKR 15,000",
-  processingTime: "4-7 Days",
+  totalFee: "PKR 15,000 Normal : PKR 20,000 Urgent",
+  processingTime: "Normal ( 30 Days ) : Urgent ( Within 24 Hours )",
   validity: "6 Months",
   stay: "1 Month",
   documents: [
@@ -48,7 +48,6 @@ const eVisa = {
     "CNIC copy",
     "Last 6-month bank statement",
     "Bank account maintenance letter",
-    "Visa request letter",
     "Return air ticket (for E-Visa only)"
   ]
 };

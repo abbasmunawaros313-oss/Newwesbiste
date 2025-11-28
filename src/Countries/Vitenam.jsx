@@ -17,8 +17,8 @@ import {
 const eVisa = {
   title: "E-Visa (Recommended)",
   subtitle: "Online Application",
-  totalFee: "PKR 25,000 (Approx.)", // Fee taken from sticker visa
-  processingTime: "07 Working Days (Approx.)",
+  totalFee: "PKR 15,000 (Approx.)", // Fee taken from sticker visa
+  processingTime: "07-10 Working Days (Approx.)",
   validity: "Varies",
   stay: "30 Days (Max)",
   category: "Single Entry",
@@ -35,7 +35,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa",
   subtitle: "From the Embassy",
-  totalFee: "PKR 25,000",
+  totalFee: "$100",
   processingTime: "07 Working Days",
   validity: "15 Days", // Note: Validity is shorter than stay?
   stay: "30 Days",
@@ -49,7 +49,8 @@ const stickerVisa = {
     "Bank Account Maintenance Letter",
     "Visa Request Letter",
     "NTN (If Applicable)",
-    "Return Air Ticket"
+    "Return Air Ticket",
+    "Approvel letter from Vietnam must ",
   ],
   note: "In Case Of Visa Refuse / Rejection Fee and Services Charges Will Not Be Refundable.",
   isSticker: true

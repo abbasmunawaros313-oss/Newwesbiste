@@ -17,7 +17,7 @@ import {
 const eVisa = {
   title: "E-Visa (Tourist)",
   subtitle: "Online Application",
-  totalFee: "PKR 35,000",
+  totalFee: "PKR 30,000",
   processingTime: "7-10 Working Days",
   validity: "3 Months",
   stay: "30 Days",
@@ -26,7 +26,7 @@ const eVisa = {
     "Scanned Passport copy (valid 6+ months)",
     "Scanned CNIC copy",
     "Recent photo (white background)",
-    "Last 6-month bank statement (Min. PKR 1,000,000)",
+    "Last 6-month bank statement (Min. PKR 600,000)",
     "Confirmed return air ticket",
     "Confirmed hotel booking"
   ],
@@ -36,7 +36,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa (Social/Business)",
   subtitle: "From the Embassy",
-  totalFee: "PKR 28,000",
+  totalFee: "PKR 35,000",
   processingTime: "15-20 Working Days",
   validity: "Varies",
   stay: "Varies",
@@ -46,7 +46,7 @@ const stickerVisa = {
     "Passport-size photos (white background)",
     "CNIC copy",
     "Invitation Letter (for Business/Social)",
-    "Last 6-month bank statement",
+    "Last 6-month bank statement minimum balance (PKR 800,000)",
     "Bank account maintenance letter",
     "Visa request letter",
     "Return air ticket"

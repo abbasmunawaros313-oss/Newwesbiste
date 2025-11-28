@@ -16,7 +16,7 @@ import {
 const eVisaTourist = {
   title: "Tourist E-Visa (Hayya A1)",
   subtitle: "Standard Online Application",
-  totalFee: "100 QAR (Approx. $27 USD)",
+  totalFee: "PKR 15,000",
   processingTime: "5-10 Working Days",
   validity: "30 Days",
   stay: "30 Days",
@@ -34,7 +34,7 @@ const eVisaTourist = {
 const eVisaETA = {
   title: "E-Visa with ETA (Hayya A3)",
   subtitle: "For US/UK/Schengen Visa Holders",
-  totalFee: "100 QAR (Approx. $27 USD)",
+  totalFee: "PKR 15,000",
   processingTime: "1-5 Working Days (Faster)",
   validity: "30 Days",
   stay: "30 Days",

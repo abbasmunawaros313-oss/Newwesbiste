@@ -16,7 +16,7 @@ import {
 const stickerVisa = {
   title: "Tourist Sticker Visa (C-3-9)",
   subtitle: "From the Embassy in Islamabad",
-  totalFee: "PKR 30,000 (Approx. Fee + Service)",
+  totalFee: "Single Entery ( $40) : Multiple Entery ( $90 )",
   processingTime: "15-20 Working Days",
   validity: "90 Days (Single Entry)",
   stay: "Up to 30 Days",

@@ -20,16 +20,16 @@ const processingService = {
   subtitle: "Complete File Processing Service",
   // Official UK Govt Fees from your site
   totalFee: "£127 (6 Months) + Service Charges", 
-  processingTime: "Approx. 21 to 50 Days", // From your site
+  processingTime: "15 - 21 Working Days", // From your site
   validity: "6 Months (Standard)",
-  stay: "Up to 6 Months",
+  stay: "Up to 3 Months",
   category: "Standard Visitor Visa",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
     "Online Application Form Filling (on Gov.uk)",
     "Visa Appointment Scheduling at VFS Global",
-    "Travel Insurance (UK Approved)",
+ 
     "Confirmed Flight Reservation",
     "Confirmed Hotel Bookings for Itinerary"
   ],
@@ -40,7 +40,7 @@ const processingService = {
     "Last 6-month Bank Statement & Maintenance Letter",
     "CNIC Photo Copy (front & back)",
     "Family Registration Certificate (FRC) or MRC",
-    "Income Tax Returns (last 2-3 years)",
+    "Income Tax Returns (last 2 years)",
     "Employment Letter / Business Documents",
     "Invitation Letter / Sponsor Letter (if any)"
   ],

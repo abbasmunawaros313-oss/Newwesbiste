@@ -19,8 +19,8 @@ const processingService = {
   title: "Canada Visitor Visa",
   subtitle: "Complete File Processing Service",
   totalFee: "185 CAD + Service Charges", // 100 CAD Visa + 85 CAD Biometrics
-  processingTime: "10 to 35 Days (After Biometrics)", // From your site
-  validity: "Up to 10 Years (Multiple Entry)",
+  processingTime: "60 Days (After Biometrics)", // From your site
+  validity: "5 to 10 Years (Multiple Entry)",
   stay: "Up to 6 Months (per entry)",
   category: "Temporary Resident Visa (TRV)",
   // This is the core service you offer
@@ -28,7 +28,6 @@ const processingService = {
     "Complete Visa File Preparation",
     "Online Application Portal (IRCC) Filing",
     "Visa Appointment Scheduling at VFS Global (for Biometrics)",
-    "Travel Insurance (Canada Approved)",
     "Confirmed Flight Reservation",
     "Detailed Day-by-Day Itinerary",
     "Confirmed Hotel Bookings for Itinerary"
@@ -40,7 +39,7 @@ const processingService = {
     "Last 6-month Bank Statement & Maintenance Letter",
     "CNIC Photo Copy (front & back)",
     "Family Registration Certificate (FRC) or MRC",
-    "Income Tax Returns (last 2-3 years)",
+    "Income Tax Returns (last 2 years)",
     "Employment Letter / Business Documents",
     "Police Character Certificate",
     "Invitation Letter / Sponsor Letter (if any)"

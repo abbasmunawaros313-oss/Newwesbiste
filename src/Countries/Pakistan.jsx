@@ -27,7 +27,8 @@ const touristVisa = {
     "Digital Passport Copy (valid 6+ months)",
     "Recent Digital Photo (white background)",
     "Letter of Invitation (LOI) from a registered Pakistani Tour Operator (like O.S. Travel & Tours)",
-    "OR a confirmed hotel booking (LOI is strongly recommended for higher success rate)"
+    "OR a confirmed hotel booking (LOI is strongly recommended for higher success rate)",
+    "Applicant's Parents ID",
   ],
   note: "O.S. Travel & Tours is a licensed tour operator (DTS) and can provide the mandatory Letter of Invitation (LOI) for your visa application."
 };
@@ -44,7 +45,7 @@ const businessVisa = {
     "Digital Passport Copy (valid 6+ months)",
     "Recent Digital Photo (white background)",
     "Invitation Letter from a Pakistani business/organization",
-    "Letter from your employer (outside Pakistan)",
+    "Applicant's Parents ID",
     "Proof of registration of the Pakistani company (e.g., Chamber of Commerce certificate)"
   ],
   note: "We assist in ensuring all business documentation is correct for the E-Visa portal submission."

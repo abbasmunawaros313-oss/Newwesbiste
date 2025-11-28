@@ -18,7 +18,7 @@ const processingService = {
   title: "Japan Visitor Visa",
   subtitle: "Complete File Processing Service",
   totalFee: "Varies (Contact Agent)", // As per your request
-  processingTime: "5-7 Working Days (Post-Submission)", // As per your request
+  processingTime: "15-30 Working Days (Post-Submission)", // As per your request
   validity: "Up to 90 Days",
   stay: "Up to 15 or 30 Days",
   category: "Tourist / Business",

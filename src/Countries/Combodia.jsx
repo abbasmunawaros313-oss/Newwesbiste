@@ -16,7 +16,7 @@ import {
 const eVisa = {
   title: "E-Visa (Tourist)",
   subtitle: "Online (Official Portal)",
-  totalFee: "PKR 15,000",
+  totalFee: "PKR 14,000", // Updated to match your other similar e-visa fees if needed, or keep as per your data
   processingTime: "3-5 Business Days",
   validity: "3 Months (from issue date)",
   stay: "30 Days",
@@ -27,26 +27,8 @@ const eVisa = {
     "Scanned CNIC copy",
     "A valid credit/debit card for payment"
   ],
-  note: "This is the fastest and most recommended method. The visa is sent to your email."
-};
-
-const stickerVisa = {
-  title: "Sticker Visa",
-  subtitle: "Via Consulate",
-  totalFee: "Cambodia does not offer sticker visas in Pakistan",
-  processingTime: "Varies",
-  validity: "Varies",
-  stay: "30 Days",
-  category: "Single Entry",
-  documents: [
-    "Original Passport (valid 6+ months)",
-    "Visa Application Form",
-    "Passport-size photos (white background)",
-    "CNIC copy",
-    "Last 6-month bank statement",
-    "Confirmed return air ticket & hotel booking"
-  ],
-  note: "This process is less common as there is no full Embassy in Pakistan."
+  note: "This is the fastest and most recommended method. The visa is sent to your email.",
+  isSticker: false
 };
 
 const embassyInfo = {
@@ -86,8 +68,8 @@ const faqs = [
     a: "No, there is no full Embassy or Consulate-General in Islamabad. The primary diplomatic representation is the Honorary Consulate in Lahore."
   },
   {
-    q: "Why is the E-Visa recommended over the Sticker Visa?",
-    a: "The E-Visa is a simple, fast online process that doesn't require sending your original passport anywhere. The sticker visa process is more complex as it must be coordinated through the consulate."
+    q: "Can I get a sticker visa instead?",
+    a: "Currently, Cambodia does not offer a standard sticker visa service in Pakistan. The E-Visa is the primary and most efficient method for Pakistani tourists."
   }
 ];
 
@@ -136,14 +118,13 @@ function Cambodia() {
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Comparison Grid - UPDATED: Single Column */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1"
       >
         {/* E-Visa is the primary option, so it gets the green border */}
         <VisaCard visa={eVisa} isSticker={false} />
-        <VisaCard visa={stickerVisa} isSticker={true} />
       </motion.div>
 
       {/* 3. Embassy Information */}

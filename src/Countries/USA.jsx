@@ -29,13 +29,8 @@ const usaVisa = {
     "Visa Fee (MRV) Payment Receipt",
     "Interview Appointment Letter",
     "1 Recent Photo (5x5cm or 2x2in, white background)",
-    "Last 6-month bank statement",
-    "Bank account maintenance letter",
-    "Employment Letter / Business Documents (NTN, etc.)",
-    "Family Registration Certificate (FRC)",
-    "Marriage Registration Certificate (MRC, if applicable)",
-    "Travel Itinerary / Hotel Bookings (if available)",
-    "Invitation Letter (if for business/family visit)"
+    "Invitation Letter (if for business/family visit)",
+    
   ],
   note: "This is the US Govt. fee. O.S. Travel & Tours service charges for file preparation and interview coaching are separate."
 };

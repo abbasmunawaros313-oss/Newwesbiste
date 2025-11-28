@@ -17,7 +17,7 @@ import {
 const eVisa = {
   title: "E-Visa (for Eligible Pakistanis)",
   subtitle: "Online (with Valid US/UK/Schengen Visa)",
-  totalFee: "PKR 55,000 (Approx. - Varies)", // Fee taken from sticker visa
+  totalFee: " $100", // Fee taken from sticker visa
   processingTime: "1 Working Day", // E-visas are typically fast
   validity: "90 Days",
   stay: "30 Days (Typically)",
@@ -51,7 +51,8 @@ const stickerVisa = {
     "Return Air Ticket",
     "Hotel Booking",
     "FRC (Family Registration Certificate) or MRC",
-    "Travel Insurance"
+    "Travel Insurance",
+    "Busniuess / Job documents ",
   ],
   note: "In Case Of Visa Refuse / Rejection Fee and Services Charges Will Not Be Refundable.",
   isSticker: true

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
+
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
@@ -18,9 +17,9 @@ const eVisa = {
   title: "E-Visa Not available for Pakistan",
   subtitle: "Online Portal",
   totalFee: "( $160) ", // Fee taken from sticker visa
-  processingTime: "7-10 Working Days", // From sticker visa, as e-visa time not listed
+  processingTime: "5-10 Working Days", // From sticker visa, as e-visa time not listed
   validity: "3 Months",
-  stay: "45 Days",
+  stay: "30 Days",
   category: "Single Entry",
   documents: [
     "Passport First Page Scan Copy",

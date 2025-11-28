@@ -274,7 +274,7 @@ function About() {
               <FaAward className="text-4xl text-blue-500" />
             </div>
             <span className="text-3xl font-bold text-gray-800 block">
-              Since 2009
+              Since 2009  Authorized dropboxe's since 2016
             </span>
             <span className="text-gray-600">Years of Trusted Experience</span>
           </motion.div>
@@ -296,7 +296,7 @@ function About() {
               <FaUsers className="text-4xl text-blue-500" />
             </div>
             <span className="text-3xl font-bold text-gray-800 block">
-              5,000+
+              500,000+
             </span>
             <span className="text-gray-600">Happy Clients in Pakistan</span>
           </motion.div>

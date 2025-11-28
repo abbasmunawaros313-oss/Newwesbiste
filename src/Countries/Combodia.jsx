@@ -25,7 +25,7 @@ const eVisa = {
     "Scanned Passport copy (valid 6+ months)",
     "Recent digital passport-size photo (white background)",
     "Scanned CNIC copy",
-    "A valid credit/debit card for payment"
+    "Bank statement (last 3 months)",
   ],
   note: "This is the fastest and most recommended method. The visa is sent to your email.",
   isSticker: false

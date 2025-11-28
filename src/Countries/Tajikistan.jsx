@@ -15,9 +15,9 @@ import {
 // Data fetched directly from ostravels.com/visa/tajikistan-visa/
 
 const eVisa = {
-  title: "E-Visa (Recommended)",
+  title: "E-Visa Not available for Pakistan",
   subtitle: "Online Portal",
-  totalFee: "PKR 10,500 (Approx.)", // Fee taken from sticker visa
+  totalFee: "( $160) ", // Fee taken from sticker visa
   processingTime: "7-10 Working Days", // From sticker visa, as e-visa time not listed
   validity: "3 Months",
   stay: "45 Days",
@@ -34,7 +34,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa",
   subtitle: "From the Consulate",
-  totalFee: "PKR 10,500",
+  totalFee: "$160",
   processingTime: "07-10 Working Days",
   validity: "3 Months",
   stay: "45 Days",

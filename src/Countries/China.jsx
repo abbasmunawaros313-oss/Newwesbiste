@@ -47,7 +47,8 @@ const businessVisa = {
     "All documents required for Tourist Visa",
     "Official Invitation Letter (TE) from a Chinese company",
     "Supporting letter from your employer in Pakistan",
-    "Company registration and last 3 years' tax returns"
+    "Company registration and last 3 years' tax returns",
+     "Last 6-month bank statement",
   ],
   note: "Express service (PKR 19,800) may be available for faster processing."
 };

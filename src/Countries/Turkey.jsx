@@ -18,7 +18,7 @@ const eVisa = {
   title: "E-Visa (for Eligible Pakistanis)",
   subtitle: "Online (with Valid US/UK/Schengen Visa)",
   totalFee: "PKR 55,000 (Approx. - Varies)", // Fee taken from sticker visa
-  processingTime: "1-2 Working Days", // E-visas are typically fast
+  processingTime: "1 Working Day", // E-visas are typically fast
   validity: "90 Days",
   stay: "30 Days (Typically)",
   category: "Single Entry",
@@ -38,7 +38,7 @@ const stickerVisa = {
   subtitle: "From the Embassy",
   totalFee: "PKR 55,000",
   serviceCharge: "PKR 12,000",
-  processingTime: "15 to 18 Working Days",
+  processingTime: "15 to 30 Working Days",
   validity: "90 Days",
   stay: "As per your itinerary",
   category: "Single Entry",

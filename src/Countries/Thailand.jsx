@@ -23,16 +23,22 @@ const eVisa = {
   stay: "Varies",
   category: "Online",
   documents: [
-    "This new platform will simplify the process.",
-    "No original documents will be required.",
-    "O.S. Travel & Tours will be authorized to handle your application."
+   "Original Passport (valid 6+ months)",
+    " Pictures with White Background",
+    "CNIC Photo Copy",
+    "Last Six Month Bank Statement (Min. 600,000 PKR)",
+    "Bank Account Maintenance Letter",
+    "NTN (National Tax No.)",
+    "Visa Request Letter",
+    "Confirm Return Air Ticket",
+    "Hotel Booking",
   ],
   note: "Thailand is launching its eVisa service for Pakistanis on Jan 1, 2025. O.S. Travel & Tours will be authorized to process it.",
   isSticker: false
 };
 
 const stickerVisa = {
-  title: "Sticker Visa (Current)",
+  title: "Sticker Visa not available",
   subtitle: "From the Embassy",
   totalFee: "PKR 15,000",
   feeBreakdown: {

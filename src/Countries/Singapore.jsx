@@ -18,7 +18,7 @@ const eVisa = {
   title: "E-Visa (Recommended)",
   subtitle: "Online via Authorized Agent",
   totalFee: "PKR 18,000 (Check latest fee)", // Fee from sticker visa, as e-visa fee isn't listed
-  processingTime: "10-15 Working Days",
+  processingTime: "5-10 Working Days",
   validity: "35 Days",
   stay: "1 Month",
   category: "Single Entry",
@@ -35,10 +35,10 @@ const eVisa = {
 };
 
 const stickerVisa = {
-  title: "Sticker Visa",
+  title: "E-Visa form Consulate",
   subtitle: "Via Consulate in Karachi",
   totalFee: "PKR 18,000",
-  processingTime: "7-10 Working Days",
+  processingTime: "15-20 Working Days",
   validity: "1 Month",
   stay: "1 Month",
   category: "Single Entry",

@@ -19,14 +19,14 @@ const processingService = {
   title: "Portugal Schengen Visa",
   subtitle: "Complete File Processing Service",
   totalFee: "90 EUR + Service Charges", // Standard Schengen Fee
-  processingTime: "15 to 45 Days (After Appointment)",
-  validity: "Up to 90 Days",
+ processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "As per your Itinerary",
   category: "Schengen (C-Visa)",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application Form Filling",
+    "Application Form Filling",
     "Visa Appointment Scheduling at VFS Global",
     "Travel Insurance (Schengen Approved, 30,000€)",
     "Confirmed Flight Reservation",

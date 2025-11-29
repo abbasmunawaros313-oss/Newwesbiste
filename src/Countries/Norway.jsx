@@ -19,14 +19,14 @@ const processingService = {
   title: "Norway Schengen Visa",
   subtitle: "Complete File Processing Service",
   totalFee: "90 EUR + Service Charges", // As per your site
-  processingTime: "15 to 25 Days", // From your site
-  validity: "Up to 90 Days",
+   processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "As per your Itinerary",
   category: "Schengen (C-Visa)",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application Form Filling (UDI Portal)",
+    "Application Form Filling (UDI Portal)",
     "Visa Appointment Scheduling at VFS Global",
     "Travel Insurance (Schengen Approved)",
     "Confirmed Flight Reservation",

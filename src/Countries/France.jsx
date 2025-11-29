@@ -21,14 +21,14 @@ const processingService = {
   // --- UPDATED FEE ---
   totalFee: "90 EUR + Service Charges", // As per your request
   // ---
-  processingTime: "25 to 45 Days", // From your site
-  validity: "Up to 90 Days",
+  processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "As per your Itinerary",
   category: "Schengen (C-Visa)",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application Form Filling",
+    "Application Form Filling",
     "Visa Appointment Scheduling at VFS Global",
     "Travel Insurance (Schengen Approved)",
     "Confirmed Flight Reservation",

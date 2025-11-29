@@ -193,10 +193,10 @@ function Home() {
     <div className="w-full bg-white overflow-x-hidden">
       
       {/* --- 1. HERO SECTION (Your Code) --- */}
-      <section className="w-full relative h-[550px] sm:h-[600px]"> {/* Set a fixed height */}
+      <section className="w-full relative h-[450px] sm:h-[600px]"> {/* Set a fixed height */}
         {/* --- Background Banner --- */}
         <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          className="absolute inset-0 w-full h-[60%] bg-cover bg-center"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop')",
@@ -214,7 +214,11 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6 text-center"
-            style={{ textShadow: "0 2px 5px rgba(0,0,0,0.6)" }}
+          style={{
+  color: "black",
+  WebkitTextStroke: "2px white",
+  textShadow: "0 8px 9px rgba(0,0,0,0.6)",
+}}
           >
             SEE THE WORLD FOR LESS WITH OS TRAVELS
           </motion.h2>
@@ -274,7 +278,7 @@ function Home() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="py-16 md:py-24"
+       
       >
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-12">

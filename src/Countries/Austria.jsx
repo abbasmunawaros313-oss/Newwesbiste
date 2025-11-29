@@ -19,14 +19,14 @@ const processingService = {
   subtitle: "Complete File Processing Service",
   totalFee: "90 EUR + Service Charges", // From your France page
   serviceCharge: "PKR 12,000", // From your France page
-  processingTime: "15 to 18 Working Days (After Appointment)",
-  validity: "Up to 90 Days",
+  processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "As per your Itinerary",
   category: "Schengen (C-Visa)",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application Form Filling",
+    "Application Form Filling",
     "Visa Appointment Scheduling at VFS",
     "Travel Insurance (Schengen Approved)",
     "Confirmed Flight Reservation",

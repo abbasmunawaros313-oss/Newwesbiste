@@ -19,14 +19,14 @@ const processingService = {
   title: "Ireland Short Stay 'C' Visa",
   subtitle: "Complete File Processing Service",
   totalFee: "60 EUR + Service Charges", // Official fee for single entry
-  processingTime: "Approx. 45 Days (After Appointment)",
-  validity: "Up to 90 Days",
+  processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "Up to 90 Days",
   category: "Short Stay (C) Tourist/Visit",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application (AVATS) Form Filling",
+    "Application (AVATS) Form Filling",
     "Visa Appointment Scheduling at VFS Global",
     "Travel Insurance (Ireland Approved)",
     "Confirmed Flight Reservation",

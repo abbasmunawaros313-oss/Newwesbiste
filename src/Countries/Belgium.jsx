@@ -19,14 +19,14 @@ const processingService = {
   subtitle: "Complete File Processing Service",
   totalFee: "90 € (Visa Fee) + Service Charges", // As per site: "Tourist visa 90 €"
   serviceCharge: "PKR 12,000", // Standard service charge for Schengen file processing
-  processingTime: "15 to 25 Days",
-  validity: "Up to 90 Days",
+  processingTime: "15 to 30 Working Days (After Appointment)",
+  validity: "According to Visa Application",
   stay: "As per your Itinerary",
   category: "Short-stay (Schengen)",
   // This is the core service you offer
   serviceIncludes: [
     "Complete Visa File Preparation",
-    "Online Application Form Filling",
+    "Application Form Filling",
     "Visa Appointment Scheduling",
     "Travel Insurance (Schengen Approved)",
     "Confirmed Flight Reservation",

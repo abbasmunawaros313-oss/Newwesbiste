@@ -29,6 +29,7 @@ import {
   FaGlobeAsia,
   FaChevronDown,
 } from "react-icons/fa";
+import PrivacyPolicyPage from "./PrivacyPolicyPage";
 
 // --- Animation Variants ---
 const sectionVariant = {
@@ -143,7 +144,7 @@ function Home() {
         {isLoading ? (
           <motion.div
             key="splash-screen"
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-blue-600"
+            className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-blue-600"
             initial={{ opacity: 1 }}
             exit={{ y: -1000, opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } }} // Slide up exit
           >
@@ -478,9 +479,10 @@ function Home() {
                 </Link>
               </div>
             </motion.section>
-            
+            <PrivacyPolicyPage/>
             {/* Added Seopage here inside the content */}
             <Seopage />
+            
           </motion.div>
         )}
       </AnimatePresence>

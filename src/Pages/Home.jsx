@@ -8,6 +8,7 @@ import VisaForm from "../SildeComponents/VisaFrorm";
 import Hotelform from "../SildeComponents/Hotelform";
 import InsurenceForm from "../SildeComponents/InsurenceForm";
 import Seopage from "../SildeComponents/Seopage";
+import  FAQSection from "../SildeComponents/FAQSection"
 
 // --- Icons ---
 import {
@@ -87,7 +88,7 @@ const dropboxCountries = [
 
 // --- MAIN HOME COMPONENT ---
 function Home() {
- const [activeMainTab, setActiveMainTab] = useState("Visa");
+  const [activeMainTab, setActiveMainTab] = useState("Visa");
   
   // --- NEW: Loading State for Splash Screen ---
   const [isLoading, setIsLoading] = useState(true);
@@ -301,8 +302,10 @@ function Home() {
                     Your Trusted Partner in Travel
                   </h2>
                   <p className="text-lg text-gray-600">
-                    O.S. Travel & Tours is the **top-rated travel agency in Islamabad, Pakistan**,
-                    specializing in visa services, flights, and custom tour packages.
+                   O.S. Travel & Tours – Islamabad’s Top-Rated Travel Agency
+O.S. Travel & Tours is one of the leading travel agencies in Islamabad, Pakistan, trusted for reliable visa processing,Travel Insurance,  affordable flight bookings, and fully customized international tour packages.
+
+We provide professional visa consultancy for more than 50+ countries, including UAE, Saudi Arabia, Malaysia, Turkey, Schengen, UK, USA, and many more — with the highest approval guidance.
                   </p>
                 </div>
                 <motion.div
@@ -422,7 +425,12 @@ function Home() {
               </div>
             </motion.section>
 
-            {/* --- TESTIMONIALS SECTION --- */}
+           
+
+            {/* --- FINAL CTA SECTION --- */}
+           
+            <PrivacyPolicyPage/>
+             {/* --- TESTIMONIALS SECTION --- */}
             <motion.section
               variants={sectionVariant}
               initial="hidden"
@@ -453,34 +461,8 @@ function Home() {
                 </motion.div>
               </div>
             </motion.section>
-
-            {/* --- FINAL CTA SECTION --- */}
-            <motion.section
-              variants={sectionVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-              className="bg-blue-600"
-            >
-              <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-                <h2 className="text-3xl font-extrabold text-white mb-4">
-                  Ready to Start Your Journey?
-                </h2>
-                <p className="text-lg text-blue-100 mb-8">
-                  Contact our expert team today for a free consultation.
-                </p>
-                <Link
-                  to="/contact"
-                  className="inline-block bg-white text-blue-600 font-bold text-lg rounded-lg px-10 py-3 
-                              transition-all duration-300 shadow-lg
-                              hover:bg-gray-100 hover:scale-105"
-                >
-                  Get in Touch
-                </Link>
-              </div>
-            </motion.section>
-            <PrivacyPolicyPage/>
             {/* Added Seopage here inside the content */}
+            <FAQSection/>
             <Seopage />
             
           </motion.div>

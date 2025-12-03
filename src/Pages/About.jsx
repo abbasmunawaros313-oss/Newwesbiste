@@ -1,6 +1,9 @@
 import React, { useState } from "react"; // Added useState
 // Import Framer Motion
 import { motion, AnimatePresence } from "framer-motion"; // Added AnimatePresence
+import { useEffect } from "react";
+
+
 
 // Make sure you have react-icons installed: npm install react-icons
 import {
@@ -138,6 +141,9 @@ const AccordionItem = ({ q, a }) => {
 
 // --- Main About Page Component ---
 function About() {
+  useEffect(() => { 
+    document.title = "About Us - O.S Travel & Tours"; // Dynamically sets title
+  }, []);
   const countries = [
     { name: "Schengen", code: "eu" },
     { name: "United Kingdom", code: "gb" },
@@ -205,7 +211,48 @@ function About() {
     {
       q: "What is an 'Authorized Dropbox Service'?",
       a: "This means we are an officially trusted partner for certain embassies (like Malaysia , Indonesia, Vietnam, Thailand) to collect and submit visa applications, saving you the hassle of appearing in person."
-    }
+    },
+    {
+  q: "Do you offer travel insurance and why is it important?",
+  a: "Yes, we provide travel insurance from trusted companies for Schengen, USA, UK, UAE, and worldwide travel. Travel insurance protects you from medical emergencies, trip cancellations, lost baggage, and travel delays—making it essential for a safe and secure journey."
+},
+{
+  q: "Can O.S. Travel & Tours help with embassy appointments and documentation?",
+  a: "Absolutely. We assist with embassy appointment bookings, complete documentation review, cover letters, itinerary preparation, and guidance according to embassy requirements for Schengen, UK, USA, Turkey, and other countries."
+},
+{
+  q: "Do you provide cheap flight bookings?",
+  a: "Yes. We offer discounted air tickets for all major airlines, including one-way, return, student, and last-minute flights. We compare fares to ensure you get the cheapest and most reliable flight options."
+},
+{
+  q: "Are your tour packages customizable?",
+  a: "Yes, all our tour packages—Turkey, Dubai, Malaysia, Thailand, Saudi Arabia, and Europe—are fully customizable based on your budget, dates, and travel preferences."
+},
+{
+  q: "Do you offer Umrah and Hajj packages?",
+  a: "Yes, we provide economy, 3-star, 4-star, and 5-star Umrah packages along with VIP transport and Ziyarat. Hajj services include complete guidance, group arrangements, and comfortable accommodation."
+},
+{
+  q: "How long does visa processing usually take?",
+  a: "Visa processing time varies by embassy. Schengen visas can take 10–20 days, while UK and USA appointments depend on availability. We guide you with the latest and most accurate timelines."
+},
+{
+  q: "Can you help students with study visas?",
+  a: "Yes, we assist Pakistani students with study visa guidance for the UK, Australia, Canada, Germany, Turkey, and other countries—covering documentation, embassy requirements, and file preparation."
+},
+{
+  q: "Is O.S. Travel & Tours an authorized partner for any embassies?",
+  a: "Yes, we are an authorized dropbox and trusted partner for Malaysia, Indonesia, Thailand, and Vietnam visa submissions. We help clients submit their applications without visiting the embassy in person."
+},
+{
+  q: "Do you assist with hotel and travel arrangements?",
+  a: "Yes, we provide hotel bookings, airport transfers, car rentals, and complete travel planning for both business and leisure trips."
+},
+{
+  q: "Can I get visa consultation online?",
+  a: "Yes, we offer online visa consultation through WhatsApp, calls, and email. You can submit your documents digitally without visiting our office."
+}
+
   ];
 
   return (
@@ -274,7 +321,7 @@ function About() {
               <FaAward className="text-4xl text-blue-500" />
             </div>
             <span className="text-3xl font-bold text-gray-800 block">
-              Since 2009  Authorized dropboxe's since 2016
+              Since 2009
             </span>
             <span className="text-gray-600">Years of Trusted Experience</span>
           </motion.div>
@@ -296,7 +343,7 @@ function About() {
               <FaUsers className="text-4xl text-blue-500" />
             </div>
             <span className="text-3xl font-bold text-gray-800 block">
-              500,000+
+              5,000+
             </span>
             <span className="text-gray-600">Happy Clients in Pakistan</span>
           </motion.div>

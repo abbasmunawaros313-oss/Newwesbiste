@@ -288,11 +288,7 @@ const Seopage = () => {
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-800">
       
-      {/* Hero Section Placeholder */}
-      <div className="bg-blue-900 text-white py-20 text-center">
-         <h1 className="text-4xl font-bold mb-4">{COMPANY_NAME}</h1>
-         <p>Your Journey Begins Here</p>
-      </div>
+      
 
       {/* Services Grid */}
       <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -315,6 +311,7 @@ const Seopage = () => {
 
       {/* SEO Keyword Cloud */}
       <KeywordCloud />
+      
   </div>
      
   );

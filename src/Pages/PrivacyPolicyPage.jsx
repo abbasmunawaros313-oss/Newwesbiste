@@ -189,31 +189,7 @@ export default function PrivacyPolicyPage() {
                 </motion.div>
 
                 {/* --- FOOTER CTA / SUPPORT --- */}
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    className="mt-16 bg-slate-900 rounded-2xl p-8 md:p-12 text-center shadow-2xl overflow-hidden relative"
-                >
-                    <div className="absolute top-0 right-0 p-12 opacity-5">
-                        <FaHeadset className="w-64 h-64 text-white" />
-                    </div>
-                    
-                    <div className="relative z-10 max-w-3xl mx-auto">
-                        <h2 className="text-3xl font-bold text-white mb-4">Still have questions?</h2>
-                        <p className="text-slate-400 mb-8 text-lg">
-                            Our dedicated support team is available 24/7 to assist you with any clarifications regarding our policies or your booking status.
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                           <Link to={"/contact"}>
-                            <button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg shadow-teal-500/30 flex items-center justify-center gap-2">
-                                <FaHeadset /> Contact Support
-                            </button>
-                           </Link>
-                          
-                        </div>
-                    </div>
-                </motion.div>
+               
             </div>
         </div>
     );

@@ -87,7 +87,7 @@ const dropboxCountries = [
 
 // --- MAIN HOME COMPONENT ---
 function Home() {
-  const [activeMainTab, setActiveMainTab] = useState(null);
+ const [activeMainTab, setActiveMainTab] = useState("Visa");
   
   // --- NEW: Loading State for Splash Screen ---
   const [isLoading, setIsLoading] = useState(true);

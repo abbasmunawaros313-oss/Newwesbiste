@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://localhost:5002/api/uic/packages";
+const BASE_URL = "https://uicbackend-production.up.railway.app/api/uic/packages";
 
 export default function InsuranceForm() {
     const navigate = useNavigate();

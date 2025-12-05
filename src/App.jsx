@@ -14,6 +14,9 @@ import Sidefloat from './Components/Sidefloat';
 import HajandUmmrah from './Pages/HajandUmmrah';
 import Login from './Authentication/Login';
 import Signup from './Authentication/Signup';
+import Packages from './Pages/Packages';
+import HandlePurchase from './Pages/HandlePurchase';
+import BookingConfirmation from './Pages/BookingConfirmation';
 
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
         <Route path="/haj" element={<HajandUmmrah />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/packages" element={<Packages />} />
+        <Route path="/purchase" element={<HandlePurchase />} />
+        <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
 
 
         {/* Country Routes */}

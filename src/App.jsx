@@ -25,6 +25,7 @@ function App() {
       {/* Navbar stays visible on every page */}
       <Navbar />
 
+      
       {/* Route-based pages */}
       <Routes>
         <Route path="/" element={<Home />} />

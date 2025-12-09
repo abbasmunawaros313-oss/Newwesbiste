@@ -15,7 +15,7 @@ import visaData from "../ostravels_visa_data.json";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; 
 
 // This is the correct API endpoint for the model.
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 
 // --- Bot Knowledge Base (Helper Functions) ---
 

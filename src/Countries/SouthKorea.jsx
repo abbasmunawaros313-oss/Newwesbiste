@@ -1,4 +1,4 @@
-import {useState}  from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
@@ -7,36 +7,47 @@ import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
   FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach,
+  FaFileSignature, // Icon for File Processing
+  FaCalendarCheck, // Icon for Appointment
   FaBriefcase // Icon for Business/Employment
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// Data synthesized from official embassy sources and trusted travel agencies.
+// Data based on official embassy requirements and your specific fee updates.
 
 const stickerVisa = {
   title: "Tourist Sticker Visa (C-3-9)",
   subtitle: "From the Embassy in Islamabad",
-  totalFee: "PKR 30,000 (Approx. Fee + Service)",
+  // --- UPDATED FEES ---
+  embassyFee: "PKR 12,000 (Embassy Fee)", // "mebasy fee 12000"
+  serviceCharge: "PKR 25000", // "file ready" service charge
+  // ---
   processingTime: "15-20 Working Days",
   validity: "90 Days (Single Entry)",
   stay: "Up to 30 Days",
   category: "C-3-9 (Tourism)",
+  // This is the core service you offer
+  serviceIncludes: [
+    "Complete Visa File Preparation",
+    "Visa Application Form (filled & signed)",
+    "Detailed Day-by-Day Travel Itinerary",
+    "Confirmed Flight Reservation",
+    "Confirmed Hotel Bookings",
+    "Travel Insurance (Recommended)"
+  ],
+  // These are the documents the *client* must provide
   documents: [
     "Original Passport (valid 6+ months) & all old passports",
-    "Visa Application Form (filled & signed)",
     "2 Recent Photos (35mm x 45mm, white background)",
     "CNIC Copy (front & back)",
-    "Family Registration Certificate (FRC)",
     "Last 6-month Bank Statement (Min. PKR 1,000,000)",
     "Bank Account Maintenance Letter",
+    "Family Registration Certificate (FRC)",
     "Employment Letter (NOC) / Business Documents",
     "Last 3 Years' Tax Returns (NTN)",
-    "Confirmed Flight Reservation",
-    "Detailed Day-by-Day Travel Itinerary",
-    "Confirmed Hotel Bookings",
     "Police Character Certificate"
   ],
-  note: "This is a complex file processing service. Visa approval is at the sole discretion of the embassy."
+  note: "This is a complex file processing service. Visa approval is at the sole discretion of the embassy. Fees are non-refundable."
 };
 
 const embassyInfo = {
@@ -60,10 +71,6 @@ const faqs = [
   {
     q: "What is the minimum bank balance for a Korea visa?",
     a: "It is highly recommended to show a consistent closing balance of at least PKR 1,000,000 (10 Lac) for solo travelers and more for families to prove you can fund your trip."
-  },
-  {
-    q: "What if my visa is rejected?",
-    a: "If your visa is rejected, you typically must wait 3-6 months before you can re-apply. This is why it's crucial to have your file prepared perfectly the first time by an expert like O.S. Travel & Tours."
   }
 ];
 
@@ -125,7 +132,7 @@ function SouthKorea() {
             South Korea Visa
           </h1>
           <p className="text-xl text-gray-600">
-            Visa Requirements for Pakistani Citizens
+            Visa File Processing for Pakistani Citizens
           </p>
         </div>
       </motion.div>
@@ -256,7 +263,7 @@ const VisaCard = ({ visa }) => {
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
-          <div className={`text-4xl text-blue-500`}><FaPassport /></div>
+          <div className={`text-4xl text-blue-500`}><FaFileSignature /></div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
             <p className="text-lg text-gray-500">{visa.subtitle}</p>
@@ -264,18 +271,32 @@ const VisaCard = ({ visa }) => {
         </div>
 
         {/* Details Grid */}
-        <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
-          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Visa Fee (Approx.)" value={visa.totalFee} />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="O.S. Service Charge" value={visa.serviceCharge} />
+          <DetailItem icon={<FaPassport className="text-gray-600" />} label="Embassy Fee" value={visa.embassyFee} />
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
-          <DetailItem icon={<FaPassport className="text-gray-600" />} label="Category" value={visa.category} />
         </div>
 
+        {/* Services Included */}
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <FaCheckCircle className="text-gray-600" />
+          Our Service Package Includes
+        </h3>
+        <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          {visa.serviceIncludes.map((doc, index) => (
+            <li key={index} className="flex items-start gap-3 text-gray-700">
+              <FaCheckCircle className="text-blue-500 mt-1.5 shrink-0" />
+              <span>{doc}</span>
+            </li>
+          ))}
+        </ul>
+        
         {/* Documents List */}
         <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FaFileAlt className="text-gray-600" />
-          Key Documents Required
+          Documents Required From You
         </h3>
         <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
           {visa.documents.map((doc, index) => (
@@ -306,7 +327,7 @@ const VisaCard = ({ visa }) => {
  */
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Use shrink-0 */}
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div>
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className="text-lg font-bold text-gray-800">{value}</p>
@@ -332,7 +353,7 @@ const AccordionItem = ({ q, a }) => {
           transition={{ duration: 0.3 }}
           className="text-gray-500"
         >
-          <FaChevronDown className="shrink-0" /> {/* Use shrink-0 */}
+          <FaChevronDown className="shrink-0" />
         </motion.div>
       </button>
       <AnimatePresence>

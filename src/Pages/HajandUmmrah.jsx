@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
+import { useEffect } from "react";
 // --- Icons (from react-icons) ---
 // Make sure to install: npm install react-icons
 import {
@@ -20,7 +20,6 @@ const umrahPackages = [
       "Closest 5-Star Hotels (Clock Tower)",
       "Direct Flights (Saudi/Emirates)",
       "Private Luxury Transport (Car)",
-      "Includes Visa & Insurance",
       "Guided Ziyarat"
     ],
     isRecommended: true
@@ -33,7 +32,6 @@ const umrahPackages = [
       "Premium 4-Star Hotels (Short Walk)",
       "Direct Flights",
       "Private Transport (Car)",
-      "Includes Visa & Insurance",
       "Guided Ziyarat"
     ],
     isRecommended: false
@@ -46,7 +44,6 @@ const umrahPackages = [
       "Clean, Approved Hotels",
       "Indirect Flights (Best Value)",
       "Group Transport (Bus)",
-      "Includes Visa & Insurance",
       "Guided Ziyarat"
     ],
     isRecommended: false
@@ -136,6 +133,9 @@ const gridItemVariant = {
 
 // --- Main Component ---
 function HajandUmmrah() {
+  useEffect(() => {
+    document.title = "Customize Hajj & Umrah Services - O.S Travel & Tours"; // Dynamically sets title
+  }, []);
   return (
     <div className="w-full bg-white overflow-x-hidden">
       {/* 1. Hero Section */}
@@ -362,14 +362,16 @@ const PackageCard = ({ pkg }) => (
     </div>
 
     <div className="p-6 bg-gray-50 rounded-b-lg mt-auto">
-      <Link
-        to="/contact"
+      <a
+        href={`https://wa.me/923325500377?text=${encodeURIComponent(`Assalamu Alaikum, I am interested in the ${pkg.title} package (${pkg.duration}). Please share more details.`)}`}
+        target="_blank"
+        rel="noopener noreferrer"
         className="block w-full text-center bg-blue-600 text-white font-bold py-3 px-4 
                    rounded-lg shadow-lg hover:bg-blue-700 transition-all 
                    transform hover:scale-105"
       >
-        Get a Quote
-      </Link>
+        View Details & Contact
+      </a>
     </div>
   </motion.div>
 );

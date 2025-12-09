@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
@@ -12,12 +11,12 @@ import {
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// Data fetched directly from ostravels.com/visa/singapore-visa/
+// Data fetched directly from ostravels.com/visa/singapore-visa/ with your specific fee updates.
 
 const eVisa = {
   title: "E-Visa (Recommended)",
   subtitle: "Online via Authorized Agent",
-  totalFee: "PKR 18,000 (Check latest fee)", // Fee from sticker visa, as e-visa fee isn't listed
+  totalFee: "PKR 18,000 (Service + Fee)", // Updated as per request
   processingTime: "10-15 Working Days",
   validity: "35 Days",
   stay: "1 Month",
@@ -31,13 +30,14 @@ const eVisa = {
     "Company letter head / Employee Letter",
     "Last three month Salary Slips (If Employee)"
   ],
-  note: "O.S. Travel & Tours is an ICA-authorized agent. All documents are submitted via email."
+  note: "O.S. Travel & Tours is an ICA-authorized agent. All documents are submitted via email.",
+  isSticker: false
 };
 
 const stickerVisa = {
-  title: "Sticker Visa",
+  title: "E-visa Visa",
   subtitle: "Via Consulate in Karachi",
-  totalFee: "PKR 18,000",
+  totalFee: "PKR 12,000 (Service + Fee)", // Updated as per request
   processingTime: "7-10 Working Days",
   validity: "1 Month",
   stay: "1 Month",
@@ -53,7 +53,8 @@ const stickerVisa = {
     "NTN (If Applicable)",
     "Return Air Ticket"
   ],
-  note: "This traditional method requires submitting original documents to the consulate in Karachi."
+  note: "This traditional method requires submitting original documents to the consulate in Karachi.",
+  isSticker: true
 };
 
 const consulateInfo = {
@@ -269,8 +270,8 @@ const VisaCard = ({ visa, isSticker }) => {
   const icon = isSticker ? <FaPassport /> : <FaLaptopCode />;
 
   return (
-    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
-      <div className="p-6 md:p-8">
+    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor} flex flex-col`}>
+      <div className="p-6 md:p-8 flex flex-col grow"> {/* Use grow */}
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
@@ -287,6 +288,7 @@ const VisaCard = ({ visa, isSticker }) => {
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
+          <DetailItem icon={<FaPassport className="text-gray-600" />} label="Category" value={visa.category} />
         </div>
 
         {/* Documents List */}
@@ -294,7 +296,7 @@ const VisaCard = ({ visa, isSticker }) => {
           <FaFileAlt className="text-gray-600" />
           Documents Required
         </h3>
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-3 mb-6 grow"> {/* Use grow */}
           {visa.documents.map((doc, index) => (
             <li key={index} className="flex items-start gap-3 text-gray-700">
               <FaCheckCircle className="text-green-500 mt-1.5 shrink-0" />
@@ -305,7 +307,7 @@ const VisaCard = ({ visa, isSticker }) => {
 
         {/* Note */}
         {visa.note && (
-          <div className={`p-4 ${isSticker ? 'bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800' : 'bg-green-50 border-l-4 border-green-400 text-green-800'}`}>
+          <div className={`p-4 mt-auto ${isSticker ? 'bg-blue-50 border-l-4 border-blue-400 text-blue-800' : 'bg-green-50 border-l-4 border-green-400 text-green-800'}`}>
             <div className="flex items-center gap-3">
               {isSticker ? <FaExclamationTriangle className="text-xl shrink-0" /> : <FaCheckCircle className="text-xl shrink-0" />}
               <p className="font-semibold">{visa.note}</p>
@@ -382,7 +384,7 @@ const ServiceCard = ({ icon, title, desc }) => (
 const ReviewCard = ({ review }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
     <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />
-    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p>
+    <p className="text-gray-600 italic mb-6 grow">"{review.quote}"</p> {/* Use grow */}
     <div className="flex items-center justify-between">
       <span className="text-lg font-semibold text-gray-800">{review.name}</span>
       <div className="flex">

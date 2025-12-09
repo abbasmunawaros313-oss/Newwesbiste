@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { useEffect } from "react";
 // --- Icons (from react-icons) ---
 import {
   FaPassport,
@@ -219,6 +219,9 @@ const inboundTour = [
 
 // --- Main Visas Page Component ---
 function Visas() {
+  useEffect(()=>{
+    document.title = "Visa we deal in Os Travels and Tours "
+  },[])
   return (
     <div className="w-full bg-white overflow-x-hidden">
       {/* 1. Hero Section */}

@@ -14,7 +14,7 @@ import {
 // Data fetched directly from ostravels.com/visa/nepal/
 
 const stickerVisa = {
-  title: "Sticker Visa (Tourist)",
+  title: "E-Visa (Tourist)",
   subtitle: "From the Embassy",
   totalFee: "PKR 15,000",
   processingTime: "03 to 05 Working Days",

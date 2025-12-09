@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
@@ -12,56 +11,32 @@ import {
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// Data fetched directly from ostravels.com/visa/thailand-visa/
+// Data fetched directly from ostravels.com/visa/thailand-visa/ with your updates
 
 const eVisa = {
-  title: "E-Visa (Coming Soon)",
+  title: "E-Visa (New)",
   subtitle: "Online Application",
-  totalFee: "PKR 15,000 (Approx.)", // Fee taken from sticker visa
-  processingTime: "TBD",
-  validity: "Varies",
-  stay: "Varies",
-  category: "Online",
+  totalFee: "PKR 15,000", // Updated Fee
+  processingTime: "TBD (New System)",
+  validity: "3 Months",
+  stay: "60 Days",
+  category: "Single Entry",
   documents: [
-    "This new platform will simplify the process.",
-    "No original documents will be required.",
-    "O.S. Travel & Tours will be authorized to handle your application."
+    "Scanned Passport copy (valid 6+ months)",
+    "Recent digital passport-size photo (white background)",
+    "Scanned CNIC copy",
+    "Last 6-month Bank Statement",
+    "Return Air Ticket (We can arrange)", // Updated as per request
+    "Hotel Booking (We can arrange)"
   ],
-  note: "Thailand is launching its eVisa service for Pakistanis on Jan 1, 2025. O.S. Travel & Tours will be authorized to process it.",
+  note: "The new E-Visa system simplifies the process. O.S. Travel & Tours is authorized to handle your application.",
   isSticker: false
-};
-
-const stickerVisa = {
-  title: "Sticker Visa (Current)",
-  subtitle: "From the Embassy",
-  totalFee: "PKR 15,000",
-  feeBreakdown: {
-    embassy: "PKR 13,000",
-    service: "PKR 2,000"
-  },
-  processingTime: "08 Working Days",
-  validity: "03 Months",
-  stay: "02 Months",
-  category: "Tourist",
-  documents: [
-    "Original Passport (valid 6+ months)",
-    "04 Pictures with White Background",
-    "CNIC Photo Copy",
-    "Last Six Month Bank Statement (Min. 500,000 PKR)",
-    "Bank Account Maintenance Letter",
-    "NTN (National Tax No.)",
-    "Visa Request Letter",
-    "Confirm Return Air Ticket",
-    "Hotel Booking"
-  ],
-  note: "In Case Of Visa Refuse / Rejection Fee and Services Charges Will Not Be Refundable.",
-  isSticker: true
 };
 
 const embassyInfo = {
   title: "Royal Thai Embassy, Islamabad",
   address: "Plots No.1 – 20, Diplomatic Enclave-1, Sector G-5/4, Islamabad",
-  phone: "(92-51) 8431270 – 80 (Ext. 1122, 1166 for Visa)",
+  phone: "(92-51) 8431270 – 80",
   fax: "(92-51) 8431288, 8431291",
   email: "royalthaiembassyislamabad@gmail.com",
   website: "http://www.thaiembassy.org/islamabad"
@@ -70,38 +45,34 @@ const embassyInfo = {
 // --- Thailand-Specific FAQs ---
 const faqs = [
   {
-    q: "Can I apply for a Thailand e-visa from Pakistan right now?",
-    a: "Not yet. According to O.S. Travel & Tours, the new eVisa platform for Pakistani citizens will launch on January 1, 2025. Until then, you must apply for a sticker visa."
+    q: "Is the Thailand E-Visa available now?",
+    a: "Yes, Thailand is transitioning to an E-Visa system for Pakistani citizens. This allows you to apply online without submitting your physical passport to the embassy."
   },
   {
-    q: "Is O.S. Travel & Tours an official visa agent for Thailand?",
-    a: "Yes, the website states: 'O.S. Travel & Tours has been authorized by the Royal Thailand Embassy to handle visa processing and is the designated official Visa drop box for Thailand visa applications.'"
+    q: "Do I need a confirmed ticket before applying?",
+    a: "Yes, proof of travel (return air ticket) is required. If you don't have one, we can arrange a verifiable flight reservation for your visa application."
   },
   {
-    q: "How much bank balance is required for a Thailand tourist visa?",
-    a: "A bank statement with a balance equivalent to 500,000 Pak Rupees is required for individuals."
-  },
-  {
-    q: "Do I need to show cash at the airport in Thailand?",
-    a: "Yes. All visitors must be in possession of a minimum of US$ 1000 or equivalent in Thai Baht. You may be refused entry if you fail to provide this proof of funds."
+    q: "How much bank balance is required?",
+    a: "You generally need to show a bank statement with a closing balance equivalent to at least 500,000 PKR for individuals to prove sufficient funds."
   }
 ];
 
 // --- Thailand-Specific Reviews ---
 const reviews = [
   {
-    name: "Hira & Asim",
-    quote: "O.S. Travel is the official visa drop box, which made us trust them completely. They got our sticker visas for our honeymoon to Phuket. The process was smooth.",
+    name: "Shoaib K.",
+    quote: "I used O.S. Travel for my Thailand trip. They handled the new E-Visa process smoothly. I didn't have to worry about the ticket or hotel booking either.",
     rating: 5
   },
   {
-    name: "Shoaib K.",
-    quote: "I use O.S. Travel for all my Thailand trips. They are the best. I'm excited for the new e-visa, which will make it even easier. Great service as always.",
+    name: "Hira & Asim",
+    quote: "We booked our honeymoon package to Phuket. O.S. Travel managed the entire visa process online. Very convenient and professional service.",
     rating: 5
   },
   {
     name: "Fatima J.",
-    quote: "They handled my visa, booked my flights to Bangkok, and arranged my hotels. It was a perfect, stress-free vacation. 10/10 would recommend.",
+    quote: "Great experience. They explained the new e-visa requirements clearly. The fee was reasonable, and I got my visa without any embassy visits.",
     rating: 5
   }
 ];
@@ -145,18 +116,17 @@ function Thailand() {
             Thailand Visa
           </h1>
           <p className="text-xl text-gray-600">
-            Visa Requirements for Pakistani Citizens
+            E-Visa Requirements for Pakistani Citizens
           </p>
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Card Section - Single Column */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1"
       >
-        <VisaCard visa={eVisa} /> {/* Green border for upcoming E-Visa */}
-        <VisaCard visa={stickerVisa} /> {/* Blue border for current Sticker Visa */}
+        <VisaCard visa={eVisa} /> 
       </motion.div>
 
       {/* 3. Embassy Information */}
@@ -197,24 +167,24 @@ function Thailand() {
           Why Book with <span className="text-blue-600">O.S. Travel & Tours</span>?
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
-          We are an <strong className="text-gray-800">officially authorized visa processing company and Visa Drop Box</strong> by the Royal Thai Embassy.
-          <strong className="text-gray-800"> We deal in a wide range of services</strong> for your trip to Thailand.
+          We are an <strong className="text-gray-800">officially authorized visa processing company</strong> for the Royal Thai Embassy.
+          <strong className="text-gray-800"> We deal in complete E-Visa processing</strong> and can arrange tickets and hotels for your trip.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
-            icon={<FaPassport className="text-blue-500" />}
-            title="Authorized Visa Agent"
-            desc="As the official drop box, we provide the most secure and reliable visa processing."
-          />
-          <ServiceCard
-            icon={<FaLaptopCode className="text-purple-500" />}
-            title="E-Visa Ready"
-            desc="We are authorized to handle the new e-visa service launching in 2025."
+            icon={<FaLaptopCode className="text-blue-500" />}
+            title="E-Visa Processing"
+            desc="We are fully authorized to handle the new Thailand E-Visa application for you."
           />
           <ServiceCard
             icon={<FaPlane className="text-green-500" />}
-            title="Air Ticketing"
-            desc="Get the best fares on Thai Airways, Emirates, and other carriers to Bangkok (BKK)."
+            title="Ticket Arrangement"
+            desc="We can issue verifiable flight reservations or confirmed tickets as per visa requirements."
+          />
+          <ServiceCard
+            icon={<FaHotel className="text-purple-500" />}
+            title="Hotel Bookings"
+            desc="We arrange confirmed hotel bookings, a mandatory requirement for the visa."
           />
           <ServiceCard
             icon={<FaUmbrellaBeach className="text-yellow-500" />}
@@ -269,10 +239,10 @@ function Thailand() {
  * A card component to display details for a single visa type.
  */
 const VisaCard = ({ visa }) => {
-  const isSticker = visa.isSticker;
-  const borderColor = isSticker ? "border-blue-500" : "border-green-500";
-  const textColor = isSticker ? "text-blue-500" : "text-green-500";
-  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />;
+  // E-Visa Theme
+  const borderColor = "border-green-500";
+  const textColor = "text-green-500";
+  const icon = <FaLaptopCode />;
 
   return (
     <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor} flex flex-col`}>
@@ -289,22 +259,11 @@ const VisaCard = ({ visa }) => {
 
         {/* Details Grid */}
         <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
-          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Visa Fee" value={visa.totalFee} />
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Total Fee" value={visa.totalFee} />
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
         </div>
-
-        {/* Fee Breakdown (only for sticker visa) */}
-        {visa.feeBreakdown && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-            <p className="font-semibold">Fee Breakdown:</p>
-            <ul className="list-disc list-inside ml-2">
-              <li>Embassy Fee: {visa.feeBreakdown.embassy}</li>
-              <li>Service Charges: {visa.feeBreakdown.service}</li>
-            </ul>
-          </div>
-        )}
 
         {/* Documents List */}
         <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
@@ -321,14 +280,12 @@ const VisaCard = ({ visa }) => {
         </ul>
 
         {/* Note */}
-        {visa.note && (
-          <div className={`p-4 mt-auto ${isSticker ? 'bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800' : 'bg-green-50 border-l-4 border-green-400 text-green-800'}`}>
+        <div className={`p-4 mt-auto bg-green-50 border-l-4 border-green-400 text-green-800`}>
             <div className="flex items-center gap-3">
-              {isSticker ? <FaExclamationTriangle className="text-xl shrink-0" /> : <FaCheckCircle className="text-xl shrink-0" />}
+              <FaCheckCircle className="text-xl shrink-0" />
               <p className="font-semibold">{visa.note}</p>
             </div>
-          </div>
-        )}
+        </div>
 
       </div>
     </div>

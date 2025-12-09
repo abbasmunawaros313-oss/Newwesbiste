@@ -15,7 +15,7 @@ import {
 const stickerVisa = {
   title: "Sticker Visa (Tourist)",
   subtitle: "From the Embassy",
-  totalFee: "$60 USD",
+  totalFee: "$160 USD",
   processingTime: "03 to 05 Working Days", // This is very fast, as per the site
   validity: "30 Days",
   stay: "30 Days",

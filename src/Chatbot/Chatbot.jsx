@@ -5,16 +5,20 @@ import {
   HiPaperAirplane, // Send icon
 } from "react-icons/hi2";
 import { FaUserCircle } from "react-icons/fa";
-// NEW ICON
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 // --- IMPORT YOUR LOCAL JSON DATA ---
-// Make sure the path is correct
 import visaData from "../ostravels_visa_data.json";
 
-// --- Bot Knowledge Base --
+// --- !! GEMINI API KEY !! ---
+// This safely loads the key from your .env file.
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; 
 
-// Helper function to find a specific country
+// This is the correct API endpoint for the model.
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
+
+// --- Bot Knowledge Base (Helper Functions) ---
+
 const findCountry = (query) => {
   const lowerQuery = query.toLowerCase();
   return visaData.find((country) =>
@@ -22,40 +26,117 @@ const findCountry = (query) => {
   );
 };
 
-// Helper function to get countries by region
 const getCountriesByRegion = (region) => {
   const regions = {
-    // Add more keywords as needed
-    asia: [
-      "malaysia", "saudi arabia", "singapore", "turkey", "hong kong",
-      "kazakhstan", "indonesia", "thailand", "azerbaijan", "china",
-      "nepal", "egypt", "vietnam", "tajikistan", "kyrgyzstan",
-      "uzbekistan", "philippine", "sri lanka"
-    ],
-    schengen: [
-      "france", "spain", "belgium", "netherlands", "poland",
-      "germany", "italy", "hungary", "greece", "czech republic",
-      "switzerland", "portugal", "denmark", "sweden", "norway",
-    ],
+    asia: ["malaysia", "saudi arabia", "singapore", "turkey", "hong kong", "kazakhstan", "indonesia", "thailand", "azerbaijan", "china", "nepal", "egypt", "vietnam", "tajikistan", "kyrgyzstan", "uzbekistan", "philippine", "sri lanka"],
+    schengen: ["france", "spain", "belgium", "netherlands", "poland", "germany", "italy", "hungary", "greece", "czech republic", "switzerland", "portugal", "denmark", "sweden", "norway"],
     other: ["united kingdom (uk)", "united states (usa)", "australia", "canada"],
   };
-
   if (!regions[region]) return [];
-
   return visaData.filter((country) =>
     regions[region].includes(country.country.toLowerCase())
   );
 };
 
-// This new function acts as the bot's "brain"
-const getBotResponse = (userText) => {
+// --- AI API Call Function (for Google Gemini) ---
+const fetchAiResponse = async (userText) => {
+  if (!API_KEY) {
+    console.error("Gemini API key is missing. Please add VITE_GEMINI_API_KEY to your .env file.");
+    return {
+      type: "text",
+      content: "Sorry, my AI brain is offline right now. (API Key is missing). Please ask about a specific visa region or contact us directly.",
+      replies: [
+        { text: "List Schengen Visas", value: "schengen" },
+        { text: "Contact Us", value: "contact" },
+      ],
+    };
+  }
+
+  const systemPrompt = `You are an expert travel agent and visa consultant for O.S. Travel & Tours in Islamabad, Pakistan. Your tone is professional, friendly, and very helpful. 
+  
+  IMPORTANT RULES:
+  1.  **You ONLY deal with TOURIST and VISIT visas.** You do **NOT** handle work visas, study visas, or immigration. If asked, politely decline and offer to help with tourist visas.
+  2.  You are an expert in Schengen, USA, UK, Canada, and Asian e-visas (like Turkey, Malaysia, UAE).
+  3.  When asked for prices or processing times, state that these change and it's best to call the office for the most accurate, up-to-date information.
+  4.  Your contact info is: Phone: 051-2120700-701 | Mobile/WhatsApp: 0333-5542877 | Email: info@ostravels.com.
+  
+  Keep your answers concise and helpful.`;
+
+  // Gemini API has a different format
+  const requestBody = {
+    contents: [
+      {
+        parts: [
+          { "text": systemPrompt }, // System-like prompt
+          { "text": `User: ${userText}` }  // User question
+        ]
+      }
+    ],
+    // Add safety settings to avoid blocks for simple questions
+    safetySettings: [
+      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+    ],
+  };
+
+  try {
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.json();
+      console.error("API Error Response:", errorBody);
+      // This is the error you are seeing. It's an issue with your key or API access.
+      throw new Error(`API error: ${response.statusText}. Check console for details.`);
+    }
+
+    const data = await response.json();
+    
+    // Safety check for empty or blocked response
+    if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content) {
+      // This can happen if the API key is not enabled for the "Generative Language API"
+      console.error("API Response Error:", data);
+      throw new Error("API returned no candidates. Check for safety blocks or if the API is enabled in your Google Cloud project.");
+    }
+    
+    const botText = data.candidates[0].content.parts[0].text;
+    
+    return {
+      type: "text",
+      content: botText,
+      replies: [
+        { text: "Ask about a Visa", value: "all_visas" },
+        { text: "Contact an Agent", value: "contact" },
+      ],
+    };
+
+  } catch (error) {
+    console.error("Error fetching from Gemini:", error);
+    return {
+      type: "text",
+      content: "Sorry, I'm having trouble connecting to my AI brain. This could be due to an invalid API key or network issue. Please check the console and ensure your API key is correct and enabled.",
+      replies: [],
+    };
+  }
+};
+
+
+// --- UPDATED: Bot's "Brain" - Now Async ---
+const getBotResponse = async (userText) => {
   const text = userText.toLowerCase().trim();
 
   // 1. Check for specific keywords (price, time)
   if (text.includes("price") || text.includes("cost") || text.includes("time") || text.includes("how long")) {
     return {
       type: "text",
-      content: "For the most up-to-date prices and processing times, please contact an agent directly. They can provide exact details for your specific travel dates.",
+      content: "For the most up-to-date prices and processing times, please contact an agent directly at 0333-5542877. They can provide exact details for your specific travel dates.",
       replies: [
         { text: "Contact an Agent", value: "contact" },
         { text: "List All Visas", value: "all_visas" },
@@ -63,8 +144,21 @@ const getBotResponse = (userText) => {
     };
   }
 
-  // 2. Check for regions
-  if (text.includes("asia")) {
+  // 2. Check for forbidden visa types (Your Request)
+  if (text.includes("work visa") || text.includes("study visa") || text.includes("student visa") || text.includes("immigration")) {
+    return {
+      type: "text",
+      content: "As a specialized travel agency, we focus on **tourist and visit visas only**. We do **not** provide services for work visas, study visas, or immigration at this time.\n\nCan I help you with a tourist visa instead?",
+      replies: [
+        { text: "Schengen Visas", value: "schengen" },
+        { text: "Asian Visas", value: "asia" },
+        { text: "USA/UK/Canada Visas", value: "other_countries" },
+      ],
+    };
+  }
+  
+  // 3. Check for regions
+  if (text === "asia" || text === "asian countries") {
     const countries = getCountriesByRegion("asia");
     return {
       type: "visaList",
@@ -79,7 +173,7 @@ const getBotResponse = (userText) => {
     };
   }
 
-  if (text.includes("schengen") || text.includes("europe")) {
+  if (text === "schengen" || text.includes("europe")) {
     const countries = getCountriesByRegion("schengen");
     return {
       type: "visaList",
@@ -94,7 +188,7 @@ const getBotResponse = (userText) => {
     };
   }
   
-  // 3. Check for specific countries
+  // 4. Check for specific countries (from JSON)
   const country = findCountry(text);
   if (country) {
     return {
@@ -107,17 +201,17 @@ const getBotResponse = (userText) => {
     };
   }
 
-  // 4. General keywords (as before)
+  // 5. General keywords
   switch (text) {
     case "hello":
     case "hi":
     case "welcome":
       return {
         type: "text",
-        content: "Hi there! I'm the O.S Travel bot. You can ask me about visa services for a specific country (e.g., 'Thailand') or a region (e.g., 'Schengen').",
+        content: "Welcome to O.S. Travel & Tours! I'm your virtual assistant. You can ask me about visa services for a specific country (e.g., 'Thailand') or a region (e.g., 'Schengen').\n\nHow can I help you today?",
         replies: [
           { text: "Visa Services", value: "all_visas" },
-          { text: "Book a Flight", value: "flights" },
+          { text: "Hajj/Umrah", value: "hajj" },
           { text: "Contact Us", value: "contact" },
         ],
       };
@@ -135,58 +229,44 @@ const getBotResponse = (userText) => {
     case "other_countries":
         const countries = getCountriesByRegion("other");
          return {
-            type: "visaList",
-            content: { title: "File Processing Services", countries: countries },
-            replies: [
-                { text: "Main Menu", value: "welcome" },
-            ],
-        };
-    case "flights":
-      return {
-        type: "text",
-        content: "We can help you find the best deals on flights worldwide. Please contact us directly for a booking.",
-        replies: [
-          { text: "See Contact Info", value: "contact" },
-          { text: "Main Menu", value: "welcome" },
-        ],
-      };
+             type: "visaList",
+             content: { title: "File Processing Services", countries: countries },
+             replies: [
+                 { text: "Main Menu", value: "welcome" },
+             ],
+       };
+    // Let AI handle "flights", "hajj", etc. for a more natural response
+    
     case "contact":
       return {
         type: "text",
-        content: "You can reach us at 051-2120700 or email info@ostravels.com. Our team is ready to help!",
+        content: "You can reach our expert team at:\n\n📞 Phone: 051-2120700-701\n📱 Mobile/WhatsApp: 0333-5542877\n✉️ Email: info@ostravels.com\n\nOur team is ready to help!",
         replies: [
           { text: "Ask About Visas", value: "visa" },
           { text: "Main Menu", value: "welcome" },
         ],
       };
+    
+    // 6. DEFAULT: Fallback to AI (Gemini)
     default:
-      return {
-        type: "text",
-        content: "Sorry, I'm not sure about that. Try asking for a specific country (e.g., 'France') or region (e.g., 'Asia').",
-        replies: [
-          { text: "Visa Services", value: "visa" },
-          { text: "Contact Us", value: "contact" },
-        ],
-      };
+      return await fetchAiResponse(userText);
   }
 };
 
 // --- Child Components for Beautiful Messages ---
 
-// Component for a standard Bot text message
 const BotMessage = ({ content }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     className="flex justify-start"
   >
-    <div className="p-3 rounded-2xl max-w-[80%] bg-gray-200 text-gray-800 rounded-bl-none wrap-break-words">
+    <div className="p-3 rounded-2xl max-w-[80%] bg-gray-200 text-gray-800 rounded-bl-none wrap-break-words whitespace-pre-wrap">
       {content}
     </div>
   </motion.div>
 );
 
-// Component for a User's message
 const UserMessage = ({ content }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
@@ -199,7 +279,6 @@ const UserMessage = ({ content }) => (
   </motion.div>
 );
 
-// NEW: Component for a "beautiful" Visa Card response
 const BotVisaCard = ({ content }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
@@ -223,7 +302,6 @@ const BotVisaCard = ({ content }) => (
   </motion.div>
 );
 
-// NEW: Component for a list of visas
 const BotVisaList = ({ content }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
@@ -244,8 +322,7 @@ const BotVisaList = ({ content }) => (
 // --- Main Chatbot Component ---
 function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  // UPDATED: Message state now handles different types of content
-  const [messages, setMessages] = useState([]); // { sender, type, content, replies }
+  const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const chatEndRef = useRef(null);
@@ -254,23 +331,23 @@ function Chatbot() {
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setIsTyping(true);
-      setTimeout(() => {
-        const welcomeMsg = getBotResponse("hello");
+      setTimeout(async () => {
+        const welcomeMsg = await getBotResponse("hello");
         setMessages([
-          { sender: "bot", type: welcomeMsg.type, content: welcomeMsg.content },
+          { sender: "bot", type: welcomeMsg.type, content: welcomeMsg.content, replies: welcomeMsg.replies },
         ]);
         setIsTyping(false);
       }, 1000);
     }
-  }, [isOpen]); // Only runs when isOpen changes
+  }, [isOpen]);
 
   // Effect to auto-scroll to the bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  // --- Handles sending a message (from input OR quick reply) ---
-  const handleSendMessage = (text, value) => {
+  // --- UPDATED: Handles sending a message (now async) ---
+  const handleSendMessage = async (text, value) => {
     const userText = text || value;
     if (!userText) return;
 
@@ -282,9 +359,9 @@ function Chatbot() {
     setIsTyping(true);
     setInputValue("");
 
-    // 2. Get bot response
+    // 2. Get bot response (now AWAITS)
     const responseKey = value || text;
-    const response = getBotResponse(responseKey);
+    const response = await getBotResponse(responseKey);
 
     // 3. Add bot's response after a delay
     setTimeout(() => {
@@ -351,7 +428,8 @@ function Chatbot() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed bottom-24 right-6 w-[350px] h-[500px] bg-white rounded-xl shadow-2xl flex flex-col z-50 border border-gray-200"
+            // UPDATED: Made responsive for mobile
+            className="fixed bottom-24 right-4 w-[calc(100vw-32px)] max-w-[350px] h-[500px] bg-white rounded-xl shadow-2xl flex flex-col z-50 border border-gray-200"
           >
             {/* Header */}
             <header className="bg-blue-600 text-white p-4 flex justify-between items-center rounded-t-xl shadow-md">
@@ -451,6 +529,7 @@ function Chatbot() {
         initial="hidden"
         animate="visible"
         onClick={() => setIsOpen(true)}
+        // UPDATED: Responsive position
         className="fixed bottom-6 right-6 w-16 h-16 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-3xl z-40"
         aria-label="Open chat"
       >

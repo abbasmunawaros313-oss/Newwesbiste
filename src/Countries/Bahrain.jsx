@@ -25,9 +25,9 @@ const commonDocuments = [
 const eVisa14 = {
   title: "Visit E-Visa (14 Days)",
   subtitle: "Online Application",
-  totalFee: "PKR 25,000",
+  totalFee: "PKR 22,000",
   processingTime: "3-7 Working Days",
-  validity: "14 Days",
+  validity: "3 Months",
   stay: "14 Days",
   category: "Single Entry",
   documents: commonDocuments,
@@ -39,9 +39,9 @@ const eVisa30 = {
   subtitle: "Online Application",
   totalFee: "PKR 35,000",
   processingTime: "3-7 Working Days",
-  validity: "30 Days",
+  validity: "3 Months",
   stay: "1 Month",
-  category: "Single Entry",
+  category: "Multiple Entry",
   documents: commonDocuments,
   note: "For a standard holiday. Fees are non-refundable."
 };
@@ -49,10 +49,10 @@ const eVisa30 = {
 const eVisa1Year = {
   title: "Visit E-Visa (1 Year)",
   subtitle: "Online Application",
-  totalFee: "PKR 65,000",
+  totalFee: "PKR 55,000",
   processingTime: "3-7 Working Days",
   validity: "1 Year",
-  stay: "Up to 30 Days (per entry)",
+  stay: "3 Months per Visit",
   category: "Multiple Entry",
   documents: commonDocuments,
   note: "For frequent travelers. Fees are non-refundable."

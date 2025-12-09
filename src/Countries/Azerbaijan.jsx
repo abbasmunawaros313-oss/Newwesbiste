@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle, FaFax,
@@ -10,37 +9,16 @@ import {
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// Organized data from your prompt.
 
-const stickerVisa = {
-  title: "Sticker Visa",
-  subtitle: "From the Embassy",
-  totalFee: "PKR 8,000",
-  processingTime: "10-15 Working Days",
-  validity: "1 Month",
-  stay: "1 Month",
-  category: "Single Entry",
-  documents: [
-    "Original passport (valid at least 6 months)",
-    "4 photos, white background (35mm × 50mm)",
-    "CNIC copy",
-    "Last 6-month bank statement",
-    "Bank account maintenance letter",
-    "Visa request letter",
-    "Invitation letter from Azerbaijan (via Telex)",
-    "NTN (if applicable)",
-    "Return air ticket"
-  ],
-  note: "If the visa is rejected, the visa fee + service charges are non-refundable."
-};
-
-const eVisa = {
-  title: "E-Visa",
-  subtitle: "Online (ASAN Visa)",
-  totalFee: "USD 50",
-  processingTime: "3 – 5 Working Days (Standard)",
-  validity: "35 Days",
-  stay: "1 Month",
+const eVisaOptions = {
+  title: "E-Visa (ASAN Visa)",
+  subtitle: "Online Application",
+  // Updated Fees
+  feeNormal: "PKR 13,000 (Standard)",
+  feeUrgent: "PKR 28,000 (Urgent)",
+  processingTime: "3-5 Days (Standard) / 3-6 Hours (Urgent)",
+  validity: "3 Months",
+  stay: "30 Days",
   category: "Single Entry",
   documents: [
     "Scanned Passport (1st & 2nd pages)",
@@ -48,7 +26,8 @@ const eVisa = {
     "Scanned photos (white background)",
     "All documents are submitted via email."
   ],
-  note: "If the eVisa is refused, the fee + service charges are non-refundable."
+  note: "Fees are non-refundable. Choose Urgent for faster processing.",
+  isSticker: false
 };
 
 const embassyInfo = {
@@ -58,7 +37,7 @@ const embassyInfo = {
   email: "islamabad@mission.mfa.gov.az"
 };
 
-// --- NEW: Azerbaijan-Specific Reviews ---
+// --- Azerbaijan-Specific Reviews ---
 const reviews = [
   {
     name: "Kamran A.",
@@ -67,32 +46,31 @@ const reviews = [
   },
   {
     name: "Sadia M.",
-    quote: "I was confused about the sticker visa invitation letter. The team at O.S. Travel & Tours guided me perfectly and handled everything. Excellent service.",
+    quote: "I needed an urgent visa for a business meeting. I paid the extra fee and got it the same day! Excellent service.",
     rating: 5
   },
   {
     name: "Faisal K.",
-    quote: "Very professional service for my Azerbaijan visa. All documents were handled via email for the e-visa, which was very convenient. Thank you.",
+    quote: "Very professional service. All documents were handled via email for the e-visa, which was very convenient. Thank you.",
     rating: 4
   }
 ];
 
-// --- NEW: Azerbaijan-Specific FAQs ---
+// --- Azerbaijan-Specific FAQs ---
 const faqs = [
   {
     q: "What is the ASAN e-visa system?",
     a: "The ASAN system is Azerbaijan's official e-visa portal. It allows travelers from eligible countries, including Pakistan, to get a visa online without visiting an embassy."
   },
   {
-    q: "Do I need the invitation letter (Telex) for the E-Visa?",
-    a: "No, the official invitation letter (Telex) is typically required for the Sticker Visa (from the embassy). The E-Visa process does not usually require it for tourism."
+    q: "What is the difference between Standard and Urgent?",
+    a: "Standard processing takes about 3-5 working days. Urgent processing is much faster, often within 3 to 6 hours, but costs more (PKR 28,000)."
   },
   {
     q: "Are the visa fees refundable?",
-    a: "No. As noted, whether you apply for the Sticker Visa or the E-Visa, all fees and service charges are non-refundable if the application is refused."
+    a: "No. All fees and service charges are non-refundable if the application is refused."
   }
 ];
-
 
 // --- Framer Motion Variants ---
 const pageVariants = {
@@ -138,13 +116,12 @@ function Azerbaijan() {
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Card Section (Single Card for E-Visa) */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1"
       >
-        <VisaCard visa={stickerVisa} isSticker={true} />
-        <VisaCard visa={eVisa} isSticker={false} />
+        <VisaCard visa={eVisaOptions} />
       </motion.div>
 
       {/* 3. Embassy Information */}
@@ -176,7 +153,7 @@ function Azerbaijan() {
         </ul>
       </motion.div>
 
-      {/* --- NEW: About O.S. Travel Section --- */}
+      {/* --- About O.S. Travel Section --- */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white p-6 md:p-8 rounded-lg shadow-lg"
@@ -186,13 +163,13 @@ function Azerbaijan() {
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
           We are a leading travel agency in Islamabad, Pakistan, dedicated to ensuring your travel experience is seamless, comfortable, and memorable. 
-          <strong className="text-gray-800">We deal in a wide range of services</strong> to handle all your travel needs.
+          <strong className="text-gray-800"> We deal in a wide range of services</strong> to handle all your travel needs.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
-            icon={<FaPassport className="text-blue-500" />}
-            title="Visa Services"
-            desc="Expert assistance for E-Visas, Sticker Visas, and complex file preparation."
+            icon={<FaLaptopCode className="text-blue-500" />}
+            title="E-Visa Services"
+            desc="Expert assistance for Azerbaijan ASAN E-Visas (Standard & Urgent)."
           />
           <ServiceCard
             icon={<FaPlane className="text-green-500" />}
@@ -202,18 +179,17 @@ function Azerbaijan() {
           <ServiceCard
             icon={<FaHotel className="text-purple-500" />}
             title="Hotel Bookings"
-            desc="Access to a wide range of hotel reservations to fit your budget."
+            desc="Access to a wide range of hotel reservations in Baku to fit your budget."
           />
           <ServiceCard
             icon={<FaUmbrellaBeach className="text-yellow-500" />}
             title="Tour Packages"
-            desc="Customized holiday and spiritual (Umrah) packages for a perfect trip."
+            desc="Customized holiday packages to explore the beauty of Azerbaijan."
           />
         </div>
       </motion.div>
-      {/* --- End: About O.S. Travel Section --- */}
       
-      {/* --- NEW: FAQ Section (The "Dropbox") --- */}
+      {/* --- FAQ Section --- */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden"
@@ -227,9 +203,8 @@ function Azerbaijan() {
           ))}
         </div>
       </motion.div>
-      {/* --- End: FAQ Section --- */}
 
-      {/* --- NEW: Review Section --- */}
+      {/* --- Review Section --- */}
       <motion.div
         variants={itemVariants}
         className="mt-12"
@@ -243,7 +218,6 @@ function Azerbaijan() {
           ))}
         </div>
       </motion.div>
-      {/* --- End: Review Section --- */}
 
       {/* Footer Note */}
       <motion.div variants={itemVariants} className="text-center mt-10 text-sm text-gray-500">
@@ -259,11 +233,11 @@ function Azerbaijan() {
 /**
  * A card component to display details for a single visa type.
  */
-const VisaCard = ({ visa, isSticker }) => {
-  const borderColor = isSticker ? "border-blue-500" : "border-green-500";
-  const textColor = isSticker ? "text-blue-500" : "text-green-500";
-  // UPDATED: Use FaLaptopCode for e-visa
-  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />;
+const VisaCard = ({ visa }) => {
+  // E-Visa is green
+  const borderColor = "border-green-500";
+  const textColor = "text-green-500";
+  const icon = <FaLaptopCode />;
 
   return (
     <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
@@ -271,7 +245,6 @@ const VisaCard = ({ visa, isSticker }) => {
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
-          {/* UPDATED: Use icon variable */}
           <div className={`text-4xl ${textColor}`}>{icon}</div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
@@ -280,8 +253,10 @@ const VisaCard = ({ visa, isSticker }) => {
         </div>
 
         {/* Details Grid */}
-        <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
-          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Visa Fee" value={visa.totalFee} />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
+          {/* Showing both fees */}
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Normal Fee" value={visa.feeNormal} />
+          <DetailItem icon={<FaMoneyBillWave className="text-red-600" />} label="Urgent Fee" value={visa.feeUrgent} />
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
@@ -302,7 +277,7 @@ const VisaCard = ({ visa, isSticker }) => {
           ))}
         </ul>
 
-        {/* Non-refundable Note */}
+        {/* Note */}
         {visa.note && (
           <div className="p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
             <div className="flex items-center gap-3">
@@ -317,12 +292,10 @@ const VisaCard = ({ visa, isSticker }) => {
   );
 };
 
-/**
- * A small component for displaying an icon, label, and value.
- */
+// --- Helper Components ---
+
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    {/* UPDATED: Added shrink-0 as requested */}
     <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div>
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
@@ -331,7 +304,6 @@ const DetailItem = ({ icon, label, value }) => (
   </div>
 );
 
-// --- NEW: Service Card Component ---
 const ServiceCard = ({ icon, title, desc }) => (
   <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center flex flex-col items-center">
     <div className="text-4xl mb-4">{icon}</div>
@@ -340,7 +312,6 @@ const ServiceCard = ({ icon, title, desc }) => (
   </div>
 );
 
-// --- NEW: Review Card Component ---
 const ReviewCard = ({ review }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
     <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />
@@ -356,10 +327,8 @@ const ReviewCard = ({ review }) => (
   </div>
 );
 
-// --- NEW: Accordion Item Component ---
 const AccordionItem = ({ q, a }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className="border-b border-gray-200">
       <button

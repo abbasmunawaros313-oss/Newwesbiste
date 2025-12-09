@@ -26,7 +26,7 @@ const visaOptions = [
   {
     title: "Multiple Entry Visa",
     subtitle: "From the Embassy",
-    totalFee: "Rs. 20,000",
+    totalFee: "Rs. 24,000",
     processingTime: "7-10 Working Days (Approx.)",
     validity: "6 Months",
     stay: "Up to 59 Days (per entry)",
@@ -36,7 +36,7 @@ const visaOptions = [
   {
     title: "Multiple Entry Visa",
     subtitle: "From the Embassy",
-    totalFee: "Rs. 26,600",
+    totalFee: "Rs. 36,600",
     processingTime: "7-10 Working Days (Approx.)",
     validity: "1 Year",
     stay: "Up to 59 Days (per entry)",

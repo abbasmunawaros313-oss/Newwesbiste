@@ -7,7 +7,7 @@ import {
   MdPerson,
   MdSubject,
 } from "react-icons/md";
-
+import { useEffect } from "react";
 // --- Animation Variants ---
 const sectionVariant = {
   hidden: { opacity: 0, y: 50 },
@@ -68,6 +68,10 @@ const InfoCard = ({ icon, title, children }) => (
 
 // --- Main Contact Page Component ---
 function Contact() {
+  useEffect(() => {
+    document.title = "Contact Us - O.S Travel & Tours"; // Dynamically sets title
+  }, []);
+
   return (
     <div className="w-full bg-gray-50 overflow-x-hidden">
       {/* 1. Hero Section */}

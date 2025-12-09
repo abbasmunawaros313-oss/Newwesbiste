@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
 // --- Icons (from react-icons) ---
 import {
   FaPassport,
@@ -170,6 +170,10 @@ const reviews = [
 // --- Main Component ---
 // Corrected function name from FilePorocessing to FileProcessing
 function FilePorocessing() {
+
+  useEffect(()=>{
+    document.title = "Visa Porcessing Os Travels and Tours"
+  },[])
   return (
     <div className="w-full bg-white overflow-x-hidden">
       {/* 1. Hero Section */}

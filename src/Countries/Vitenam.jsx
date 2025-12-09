@@ -17,7 +17,7 @@ import {
 const eVisa = {
   title: "E-Visa (Recommended)",
   subtitle: "Online Application",
-  totalFee: "PKR 25,000 (Approx.)", // Fee taken from sticker visa
+  totalFee: "PKR 13,000 (Approx.)", // Fee taken from sticker visa
   processingTime: "07 Working Days (Approx.)",
   validity: "Varies",
   stay: "30 Days (Max)",
@@ -35,7 +35,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa",
   subtitle: "From the Embassy",
-  totalFee: "PKR 25,000",
+  totalFee: "$105 including Service Charges, and Visa Fee", // Fee taken from ostravels.com
   processingTime: "07 Working Days",
   validity: "15 Days", // Note: Validity is shorter than stay?
   stay: "30 Days",

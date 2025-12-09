@@ -6,102 +6,93 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
-  FaBriefcase, FaPlaneDeparture, FaChevronDown, FaStar, FaQuoteLeft,
-  FaPlane, FaHotel, FaUmbrellaBeach
+  FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach,
+  FaFileSignature, // Icon for File Processing
+  FaCalendarCheck // Icon for Appointment
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// ... (Japan visa data remains the same) ...
-const touristVisa = {
-  title: "Tourist Visa (Sticker)",
-  subtitle: "In-Person Embassy Submission",
-  totalFee: "PKR 0 (Embassy Fee)",
-  processingTime: "At least 6-10 Working Days",
+// Data based on official Japan Embassy requirements and your provided updates.
+
+const processingService = {
+  title: "Japan Visitor Visa",
+  subtitle: "Complete File Processing Service",
+  totalFee: "Varies (Contact Agent)", // As per your request
+  processingTime: "5-7 Working Days (Post-Submission)", // As per your request
   validity: "Up to 90 Days",
   stay: "Up to 15 or 30 Days",
-  category: "Single Entry",
+  category: "Tourist / Business",
+  // This is the core service you offer
+  serviceIncludes: [
+    "Complete Visa File Preparation",
+    "Visa Application Form Filling",
+    "Detailed Day-by-Day Itinerary (Mandatory)",
+    "Confirmed Flight Reservation",
+    "Confirmed Hotel Bookings",
+    "Travel Insurance (Recommended)"
+  ],
+  // These are the documents the *client* must provide
   documents: [
     "Original Passport (valid 6+ months) & all old passports",
-    "Visa Application Form (filled completely)",
-    "1 Photo (45mm x 45mm, white background, recent)",
-    "CNIC (Original & Copy)",
-    "Last 6-month bank statement (Min. PKR 1,000,000)",
-    "Bank account maintenance letter",
-    "Confirmed Flight Reservation (booking, not ticket)",
-    "Detailed Daily Itinerary in Japan",
-    "Confirmed Hotel Bookings",
-    "Letter from employer (NOC, salary slips)",
+    "1 Recent Photo (45mm x 45mm, white background)",
+    "CNIC Photo Copy (front & back)",
+    "Last 6-month Bank Statement (Min. PKR 1,000,000)",
+    "Bank Account Maintenance Letter",
     "Family Registration Certificate (FRC)",
-    "NTN & recent tax returns"
+    "Employment Letter / Business Documents (NTN, etc.)",
+    "Invitation Letter (if business/family visit)"
   ],
-  note: "Visa fee is waived for Pakistani nationals, but agency/VFS fees may apply."
-};
-
-const businessVisa = {
-  title: "Business Visa (Sticker)",
-  subtitle: "In-Person Embassy Submission",
-  totalFee: "PKR 0 (Embassy Fee)",
-  processingTime: "At least 6-10 Working Days",
-  validity: "Varies",
-  stay: "Varies",
-  category: "Single or Multiple Entry",
-  documents: [
-    "All documents required for Tourist Visa",
-    "Invitation Letter from Japanese company (Original)",
-    "Letter of Guarantee from Japanese company (Original)",
-    "Company Registration (Kaisya Tohon) of Japanese company",
-    "Detailed schedule/itinerary from Japanese company"
-  ],
-  note: "Requires extensive documentation from the inviting company in Japan."
+  note: "Embassy visa fee is generally gratis (free) for Pakistanis, but agency/VFS service charges apply. Fees are non-refundable."
 };
 
 const embassyInfo = {
-  title: "Embassy of Japan in Pakistan (Islamabad)",
+  title: "Embassy of Japan, Islamabad",
   address: "Plot No. 53-70, Ramna 5/4, Diplomatic Enclave I, Islamabad",
-  phone: "+92-51-9072-500 (Visa Section)",
-  email: "Ryoji@ib.mofa.go.jp",
-  note: "Residents of Punjab, KPK, GB, and AJK apply here. Applications are submitted in person."
+  phone: "+92-51-9072-500",
+  email: "ryoji@ib.mofa.go.jp",
+  note: "Residents of Punjab, KPK, GB, and AJK must submit their file here in person."
 };
 
 const consulateInfo = {
-  title: "Consulate-General of Japan (Karachi)",
+  title: "Consulate-General of Japan, Karachi",
   address: "6/2 Civil Lines, Abdullah Haroon Road, Karachi",
   phone: "+92-21-3522-0800",
   email: "cgjapan3@super.net.pk",
-  note: "Residents of Sindh & Balochistan apply here, usually through VFS Global."
+  note: "Residents of Sindh & Balochistan submit applications here, often via VFS Global."
 };
 
-// --- NEW: Dummy Review Data ---
+// --- Japan-Specific FAQs ---
+const faqs = [
+  {
+    q: "Do I need an appointment for a Japan visa?",
+    a: "Yes. Applications must be submitted in person. We handle the file preparation and guide you on the submission process at the Embassy or Consulate/VFS."
+  },
+  {
+    q: "Is there a visa fee for Japan?",
+    a: "The official visa fee is generally waived (free) for Pakistani nationals visiting for tourism. However, you must pay our service charges for file processing and itinerary creation."
+  },
+  {
+    q: "How long does the Japan visa take?",
+    a: "Once submitted, the processing time is very fast, typically 5 to 7 working days. However, preparing the file with a correct itinerary takes time, so apply early."
+  }
+];
+
+// --- Japan-Specific Reviews ---
 const reviews = [
   {
-    name: "Ahtisham H.",
-    quote: "Applied for Singapore, Got visa in 3 days, very efficiently. They know what they are doing. God bless them!",
+    name: "Sami J.",
+    quote: "The Japan visa requires a very detailed itinerary. O.S. Travel made a perfect day-by-day plan for me. I submitted the file and got my visa in a week!",
     rating: 5
   },
   {
-    name: "Sami J.",
-    quote: "Obaid is an extremely competent person who handled my Japan visa with utmost care. I will definitely use his services in future. Highly recommended!",
+    name: "Ahtisham H.",
+    quote: "I was confused about the photo size (it's different for Japan). The team guided me on everything. Excellent file processing service.",
     rating: 5
   },
   {
     name: "Nasir Islam",
-    quote: "Trustable and good services. I got my visa from OS Travel in just 2 days. Quality and charges and services good. Thanks.",
+    quote: "Trustable service. I got my Japan business visa with their help. They prepared the invitation letter and company docs perfectly.",
     rating: 5
-  }
-];
-
-const faqs = [
-  {
-    q: "Is the Japan visa fee really free?",
-    a: "Yes, the visa fee itself is waived for Pakistani passport holders. However, if you use a service like VFS Global (in Karachi) or a travel agency, you must pay their service charges."
-  },
-  {
-    q: "Can I get a Japan e-visa?",
-    a: "No, Pakistan is not currently on the list of countries eligible for the Japan e-Visa. All applications must be submitted in person and result in a sticker visa in the passport."
-  },
-  {
-    q: "What is the minimum bank balance required?",
-    a: "While not officially stated by the embassy, most travel agencies recommend a closing balance of at least PKR 1,000,000 (10 Lac) to show sufficient funds."
   }
 ];
 
@@ -144,18 +135,17 @@ function Japan() {
             Japan Visa
           </h1>
           <p className="text-xl text-gray-600">
-            Visa Requirements for Pakistani Citizens
+            Visa File Processing for Pakistani Citizens
           </p>
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Card Section (File Processing) */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1"
       >
-        <VisaCard visa={touristVisa} isBusiness={false} />
-        <VisaCard visa={businessVisa} isBusiness={true} />
+        <FileProcessingCard visa={processingService} />
       </motion.div>
 
       {/* 3. Embassy & Consulate Information */}
@@ -167,45 +157,43 @@ function Japan() {
         <EmbassyCard info={consulateInfo} />
       </motion.div>
 
-      {/* --- NEW: About O.S. Travel Section --- */}
+      {/* 4. About O.S. Travel Section (Highlighting File Processing) */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white p-6 md:p-8 rounded-lg shadow-lg"
       >
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Why Book with <span className="text-blue-600">O.S. Travel & Tours</span>?
+          Why Choose O.S. Travel for Your <span className="text-blue-600">Japan Visa</span>?
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
-          We are a leading travel agency in Islamabad, Pakistan, dedicated to ensuring your travel experience is seamless, comfortable, and memorable. 
-          <strong className="text-gray-800">We deal in a wide range of services</strong> to handle all your travel needs.
+          The Japan visa application requires precision, especially with the travel itinerary.
+          <strong className="text-gray-800"> We deal in complete visa file processing</strong> to ensure your application meets the strict standards of the Japanese Embassy.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
-            icon={<FaPassport className="text-blue-500" />}
-            title="Visa Services"
-            desc="Expert assistance for E-Visas, Sticker Visas, and complex file preparation."
+            icon={<FaFileSignature className="text-blue-500" />}
+            title="Detailed Itinerary"
+            desc="We create the mandatory, detailed day-by-day travel plan required by the Embassy."
+          />
+          <ServiceCard
+            icon={<FaCalendarCheck className="text-purple-500" />}
+            title="Submission Guidance"
+            desc="We guide you on where and how to submit your file (Embassy vs. Consulate/VFS)."
           />
           <ServiceCard
             icon={<FaPlane className="text-green-500" />}
-            title="Air Ticketing"
-            desc="Competitive pricing on all domestic and international flight bookings."
+            title="Flight & Hotel Bookings"
+            desc="We provide confirmed flight reservations and hotel bookings for your application."
           />
           <ServiceCard
-            icon={<FaHotel className="text-purple-500" />}
-            title="Hotel Bookings"
-            desc="Access to a wide range of hotel reservations to fit your budget."
-          />
-          <ServiceCard
-            icon={<FaUmbrellaBeach className="text-yellow-500" />}
-            title="Tour Packages"
-            desc="Customized holiday and spiritual (Umrah) packages for a perfect trip."
+            icon={<FaPassport className="text-yellow-500" />}
+            title="Complete File Prep"
+            desc="We organize your bank statements, FRC, and photos into a professional visa file."
           />
         </div>
       </motion.div>
-      {/* --- End: About O.S. Travel Section --- */}
 
-
-      {/* 4. FAQ Section (The "Dropbox") */}
+      {/* 5. FAQ Section (The "Dropbox") */}
       <motion.div
         variants={itemVariants}
         className="mt-12 bg-white rounded-lg shadow-lg overflow-hidden"
@@ -220,7 +208,7 @@ function Japan() {
         </div>
       </motion.div>
 
-      {/* --- NEW: Review Section --- */}
+      {/* 6. Review Section */}
       <motion.div
         variants={itemVariants}
         className="mt-12"
@@ -234,11 +222,10 @@ function Japan() {
           ))}
         </div>
       </motion.div>
-      {/* --- End: Review Section --- */}
 
       {/* Footer Note */}
       <motion.div variants={itemVariants} className="text-center mt-10 text-sm text-gray-500">
-        <p>Information is based on official embassy guidelines. Agency fees (like O.S. Travel & Tours) are separate.</p>
+        <p>Visa approval is at the sole discretion of the Embassy of Japan. O.S. Travel & Tours provides expert file preparation services.</p>
       </motion.div>
 
     </motion.div>
@@ -248,20 +235,16 @@ function Japan() {
 // --- Reusable Sub-components ---
 
 /**
- * A card component to display details for a single visa type.
+ * A card component to display details for the File Processing service.
  */
-const VisaCard = ({ visa, isBusiness }) => {
-  const borderColor = isBusiness ? "border-blue-500" : "border-green-500";
-  const textColor = isBusiness ? "text-blue-500" : "text-green-500";
-  const icon = isBusiness ? <FaBriefcase /> : <FaPlaneDeparture />;
-
+const FileProcessingCard = ({ visa }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
+    <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 border-blue-600`}>
       <div className="p-6 md:p-8">
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
-          <div className={`text-4xl ${textColor}`}>{icon}</div>
+          <div className={`text-4xl text-blue-600`}><FaFileSignature /></div>
           <div>
             <h2 className="text-3xl font-bold text-gray-800">{visa.title}</h2>
             <p className="text-lg text-gray-500">{visa.subtitle}</p>
@@ -269,19 +252,32 @@ const VisaCard = ({ visa, isBusiness }) => {
         </div>
 
         {/* Details Grid */}
-        <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
-          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Embassy Fee" value={visa.totalFee} />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Service Charges" value={visa.totalFee} />
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
-          <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
         </div>
 
+        {/* Services Included */}
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          <FaCheckCircle className="text-gray-600" />
+          Our Service Package Includes
+        </h3>
+        <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          {visa.serviceIncludes.map((doc, index) => (
+            <li key={index} className="flex items-start gap-3 text-gray-700">
+              <FaCheckCircle className="text-blue-500 mt-1.5 shrink-0" />
+              <span>{doc}</span>
+            </li>
+          ))}
+        </ul>
+        
         {/* Documents List */}
         <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FaFileAlt className="text-gray-600" />
-          Documents Required
+          Documents Required From You
         </h3>
-        <ul className="space-y-3 mb-6">
+        <ul className="space-y-3 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-6">
           {visa.documents.map((doc, index) => (
             <li key={index} className="flex items-start gap-3 text-gray-700">
               <FaCheckCircle className="text-green-500 mt-1.5 shrink-0" />
@@ -292,9 +288,9 @@ const VisaCard = ({ visa, isBusiness }) => {
 
         {/* Note */}
         {visa.note && (
-          <div className={`p-4 ${isBusiness ? 'bg-blue-50 border-l-4 border-blue-400 text-blue-800' : 'bg-green-50 border-l-4 border-green-400 text-green-800'}`}>
+          <div className={`p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800`}>
             <div className="flex items-center gap-3">
-              <FaCheckCircle className="text-xl shrink-0" />
+              <FaExclamationTriangle className="text-xl shrink-0" />
               <p className="font-semibold">{visa.note}</p>
             </div>
           </div>
@@ -309,29 +305,29 @@ const VisaCard = ({ visa, isBusiness }) => {
  * A card for Embassy/Consulate info.
  */
 const EmbassyCard = ({ info }) => (
-  <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+  <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col">
     <h2 className="text-2xl font-bold text-gray-800 mb-5 flex items-center gap-3">
-      <FaBuilding className="text-gray-700" />
+      <FaBuilding className={info.title.includes("Embassy") ? "text-red-700" : "text-blue-700"} />
       {info.title}
     </h2>
-    <ul className="space-y-4 text-gray-700 text-lg">
+    <ul className="space-y-4 text-gray-700 text-lg grow">
       <li className="flex items-start gap-4">
         <FaBuilding className="text-gray-500 mt-1.5 shrink-0" />
         <span><strong>Address:</strong> {info.address}</span>
       </li>
       <li className="flex items-start gap-4">
         <FaPhone className="text-gray-500 mt-1.5 shrink-0" />
-        <span><strong>Phone:</strong> <a href={`tel:${info.phone}`} className="text-blue-600 hover:underline">{info.phone}</a></span>
+        <span><strong>Phone:</strong> <a href={`tel:${info.phone.split(' / ')[0]}`} className="text-blue-600 hover:underline">{info.phone}</a></span>
       </li>
       <li className="flex items-start gap-4">
         <FaEnvelope className="text-gray-500 mt-1.5 shrink-0" />
         <span><strong>Email:</strong> <a href={`mailto:${info.email}`} className="text-blue-600 hover:underline">{info.email}</a></span>
       </li>
     </ul>
-    <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+    <div className="mt-6 p-4 bg-gray-100 border-l-4 border-gray-400 text-gray-800">
       <div className="flex items-center gap-3">
         <FaExclamationTriangle className="text-xl shrink-0" />
-        <p className="font-semibold">{info.note}</p>
+        <p className="font-semibold text-sm">{info.note}</p>
       </div>
     </div>
   </div>
@@ -388,7 +384,7 @@ const AccordionItem = ({ q, a }) => {
   );
 };
 
-// --- NEW: Service Card Component ---
+// --- Service Card Component ---
 const ServiceCard = ({ icon, title, desc }) => (
   <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center flex flex-col items-center">
     <div className="text-4xl mb-4">{icon}</div>
@@ -397,7 +393,7 @@ const ServiceCard = ({ icon, title, desc }) => (
   </div>
 );
 
-// --- NEW: Review Card Component ---
+// --- Review Card Component ---
 const ReviewCard = ({ review }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
     <FaQuoteLeft className="text-3xl text-blue-500 mb-4" />

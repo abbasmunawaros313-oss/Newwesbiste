@@ -1,47 +1,25 @@
-import React, { useState } from 'react'; // Added useState
-import { motion, AnimatePresence } from 'framer-motion'; // Added AnimatePresence
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle,
-  // --- ADDED ICONS ---
   FaLaptopCode, FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach, FaExclamationTriangle
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// I've organized all the data you provided into easy-to-use objects.
 
-const stickerVisa = {
-  title: "Sticker Visa",
-  subtitle: "From the Embassy",
-  totalFee: "PKR 18,000",
-  feeBreakdown: {
-    embassy: "PKR 12,900",
-    service: "PKR 1,600"
-  },
-  processingTime: "12-15 Working Days",
-  validity: "3 Months",
-  stay: "1 Month (extendable)",
-  documents: [
-    "Original Passport (valid for at least 9 months)",
-    "4 pictures with white background",
-    "Last 6-month bank statement",
-    "Bank account maintenance letter",
-    "Visa request letter",
-    "NTN (National Tax No.) if applicable",
-    "Return air ticket"
-  ]
-};
-
-const eVisa = {
-  title: "E-Visa",
-  subtitle: "Online",
-  totalFee: "PKR 15,000",
-  processingTime: "4-7 Days",
+const eVisaOptions = {
+  title: "Malaysia E-Visa",
+  subtitle: "Online Application",
+  // Updated Fees & Processing
+  feeNormal: "PKR 13,000 (Normal)",
+  feeUrgent: "PKR 25000 - 35000 -(Urgent)",
+  processingTime: "4-6 Days (Normal) / 24-48 Hours (Urgent)",
   validity: "6 Months",
-  stay: "1 Month",
+  stay: "30 Days",
+  category: "Single Entry , Multiple Entry",
   documents: [
     "Passport 1st & 2nd page scan copy (valid at least 9 months)",
     "4 pictures with white background (35mm x 50mm)",
@@ -49,8 +27,11 @@ const eVisa = {
     "Last 6-month bank statement",
     "Bank account maintenance letter",
     "Visa request letter",
-    "Return air ticket (for E-Visa only)"
-  ]
+    "Return air ticket",
+    "Confirmed Hotel Booking"
+  ],
+  note: "Fees are non-refundable. Urgent processing is available for faster approval.",
+  isSticker: false // Green theme
 };
 
 const embassyInfo = {
@@ -59,23 +40,23 @@ const embassyInfo = {
   phone: "(92 51) 2072900"
 };
 
-// --- NEW: Malaysia-Specific FAQs ---
+// --- Malaysia-Specific FAQs ---
 const faqs = [
   {
     q: "Is the Malaysia E-Visa a multiple entry visa?",
-    a: "No, the standard E-Visa listed is for a single entry. Multiple entry e-visas may be available but have different requirements and are typically for business purposes."
+    a: "No, the standard tourist E-Visa listed here is typically for a Single Entry. Multiple entry visas usually require a specific business invitation and prior travel history."
   },
   {
-    q: "Can I extend my 1-month stay in Malaysia?",
-    a: "The sticker visa explicitly mentions it is 'extendable in Malaysia'. The e-visa is typically for a fixed 30-day period. Any extension must be applied for at the Malaysian Immigration Department *before* your visa expires."
+    q: "Can I extend my stay in Malaysia?",
+    a: "Extensions are possible but must be applied for at the Malaysian Immigration Department in Malaysia *before* your current visa expires. Approval is at their discretion."
   },
   {
-    q: "Which visa is faster, E-Visa or Sticker Visa?",
-    a: "The E-Visa is significantly faster, with a processing time of 4-7 days, compared to the 12-15 working days for the sticker visa."
+    q: "What is the difference between Normal and Urgent?",
+    a: "The Normal process takes about 4-6 working days. The Urgent service is prioritized and can often be processed within 24-48 hours for an additional fee."
   }
 ];
 
-// --- NEW: Malaysia-Specific Reviews ---
+// --- Malaysia-Specific Reviews ---
 const reviews = [
   {
     name: "Haris Q.",
@@ -84,12 +65,12 @@ const reviews = [
   },
   {
     name: "Sana & Family",
-    quote: "We booked our entire Kuala Lumpur & Langkawi tour with O.S. Travel. They handled our e-visas, flights, and hotels. Everything was perfect. Thank you, Mr. Obaid.",
+    quote: "We booked our entire Kuala Lumpur & Langkawi tour with O.S. Travel. They handled our e-visas (urgent), flights, and hotels. Everything was perfect.",
     rating: 5
   },
   {
     name: "Imran Traders",
-    quote: "Applied for a sticker visa for my business trip. The process was smooth, and the team was very professional. Good service.",
+    quote: "I needed to travel quickly for a meeting. Their urgent visa service was a lifesaver. Got the approval letter in 2 days.",
     rating: 5
   }
 ];
@@ -138,13 +119,12 @@ function Malaysia() {
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid */}
+      {/* 2. Visa Card Section */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        className="grid grid-cols-1"
       >
-        <VisaCard visa={stickerVisa} isSticker={true} />
-        <VisaCard visa={eVisa} isSticker={false} />
+        <VisaCard visa={eVisaOptions} />
       </motion.div>
 
       {/* 3. Embassy Information */}
@@ -181,14 +161,14 @@ function Malaysia() {
           Why Book with <span className="text-blue-600">O.S. Travel & Tours</span>?
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
-          We are a leading travel agency in Islamabad, Pakistan, dedicated to ensuring your travel experience is seamless, comfortable, and memorable. 
-          <strong className="text-gray-800">We deal in a wide range of services</strong>, including being an authorized visa dropbox for Malaysia.
+          We are a leading travel agency in Islamabad, Pakistan, dedicated to ensuring your travel experience is seamless. 
+          <strong className="text-gray-800"> We are an authorized visa dropbox for Malaysia</strong>, ensuring safe and fast processing.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
             icon={<FaPassport className="text-blue-500" />}
             title="Authorized Dropbox"
-            desc="As an authorized agent, we provide fast and reliable Malaysia e-visa and sticker visa processing."
+            desc="As an authorized agent, we provide reliable Malaysia e-visa processing (Normal & Urgent)."
           />
           <ServiceCard
             icon={<FaPlane className="text-green-500" />}
@@ -252,10 +232,10 @@ function Malaysia() {
 /**
  * A card component to display details for a single visa type.
  */
-const VisaCard = ({ visa, isSticker }) => {
-  const borderColor = isSticker ? "border-blue-500" : "border-green-500";
-  const textColor = isSticker ? "text-blue-500" : "text-green-500";
-  const icon = isSticker ? <FaPassport /> : <FaLaptopCode />; // Use laptop icon for E-Visa
+const VisaCard = ({ visa }) => {
+  const borderColor = "border-green-500";
+  const textColor = "text-green-500";
+  const icon = <FaLaptopCode />; // Use laptop icon for E-Visa
 
   return (
     <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor}`}>
@@ -271,23 +251,15 @@ const VisaCard = ({ visa, isSticker }) => {
         </div>
 
         {/* Details Grid */}
-        <div className="grid grid-cols-2 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
-          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Total Fee" value={visa.totalFee} />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 mb-6 pt-4 border-t border-gray-100">
+          {/* Showing both Normal and Urgent fees */}
+          <DetailItem icon={<FaMoneyBillWave className="text-green-600" />} label="Normal Fee" value={visa.feeNormal} />
+          <DetailItem icon={<FaMoneyBillWave className="text-red-600" />} label="Urgent Fee" value={visa.feeUrgent} />
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
+          <DetailItem icon={<FaPassport className="text-gray-600" />} label="Category" value={visa.category} />
         </div>
-
-        {/* Fee Breakdown (only for sticker visa) */}
-        {visa.feeBreakdown && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-            <p className="font-semibold">Fee Breakdown:</p>
-            <ul className="list-disc list-inside ml-2">
-              <li>Embassy Fee: {visa.feeBreakdown.embassy}</li>
-              <li>Service Charges: {visa.feeBreakdown.service}</li>
-            </ul>
-          </div>
-        )}
 
         {/* Documents List */}
         <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
@@ -302,6 +274,15 @@ const VisaCard = ({ visa, isSticker }) => {
             </li>
           ))}
         </ul>
+        
+        {/* Note */}
+        <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+            <div className="flex items-center gap-3">
+              <FaExclamationTriangle className="text-xl shrink-0" />
+              <p className="font-semibold">{visa.note}</p>
+            </div>
+          </div>
+
       </div>
     </div>
   );
@@ -312,7 +293,7 @@ const VisaCard = ({ visa, isSticker }) => {
  */
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Added shrink-0 */}
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div>
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className="text-lg font-bold text-gray-800">{value}</p>

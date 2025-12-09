@@ -14,7 +14,7 @@ import {
 // Data synthesized from official Hayya portal and trusted travel sources.
 
 const eVisaTourist = {
-  title: "Tourist E-Visa (Hayya A1)",
+  title: "Tourist E-Visa (Hayya A1) for US/UK/Schengen Visa Holders",
   subtitle: "Standard Online Application",
   totalFee: "100 QAR (Approx. $27 USD)",
   processingTime: "5-10 Working Days",

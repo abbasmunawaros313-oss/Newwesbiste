@@ -17,9 +17,9 @@ import {
 const eVisa = {
   title: "E-Visa (Tourist)",
   subtitle: "Online Application",
-  totalFee: "PKR 45,000",
+  totalFee: "PKR 35,000",
   processingTime: "7-10 Working Days",
-  validity: "60 Days",
+  validity: "3 Months",
   stay: "30 Days",
   category: "Single Entry",
   documents: [
@@ -36,7 +36,7 @@ const eVisa = {
 const stickerVisa = {
   title: "Sticker Visa (Social/Business)",
   subtitle: "From the Embassy",
-  totalFee: "PKR 35,000",
+  totalFee: "PKR 28,000",
   processingTime: "15-20 Working Days",
   validity: "Varies",
   stay: "Varies",

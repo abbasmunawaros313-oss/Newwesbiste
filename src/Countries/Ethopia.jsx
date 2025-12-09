@@ -17,7 +17,7 @@ import {
 const eVisa30 = {
   title: "E-Visa (30 Days)",
   subtitle: "Online Application (Recommended)",
-  totalFee: "PKR 16000", // Official Govt. Fee
+  totalFee: "$90", // Official Govt. Fee
   processingTime: "Approx. 3 Working Days",
   validity: "30 Days from intended arrival date",
   stay: "30 Days",
@@ -33,7 +33,7 @@ const eVisa30 = {
 const eVisa90 = {
   title: "E-Visa (90 Days)",
   subtitle: "Online Application (Extended Stay)",
-  totalFee: "PKR 56,700", // Official Govt. Fee
+  totalFee: "Varies", // Official Govt. Fee
   processingTime: "Approx. 3 Working Days",
   validity: "90 Days from intended arrival date",
   stay: "90 Days",

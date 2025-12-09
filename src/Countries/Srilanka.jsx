@@ -2,81 +2,30 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
 import {
   FaPassport, FaMoneyBillWave, FaClock, FaCalendarAlt, FaFileAlt,
   FaBuilding, FaEnvelope, FaPhone, FaCheckCircle, FaExclamationTriangle,
   FaChevronDown, FaStar, FaQuoteLeft, FaPlane, FaHotel, FaUmbrellaBeach,
-  FaLaptopCode, // Icon for E-Visa
-  FaBriefcase // Icon for Business
+  FaLaptopCode // Icon for E-Visa
 } from 'react-icons/fa';
 
 // --- Page Data ---
-// Data fetched directly from ostravels.com/visa/sri-lanka-visa/
 
 const eVisa = {
-  title: "E-Visa / ETA (Recommended)",
-  subtitle: "Online (ETA)",
-  totalFee: "PKR 15,000 (Approx.)", // Fee taken from sticker visa for consistency
+  title: "E-Visa / ETA",
+  subtitle: "Online Electronic Travel Authorization",
+  totalFee: "PKR 14,000", // Updated Fee
   processingTime: "07 to 15 Days",
-  validity: "Varies",
-  stay: "30 Days (Typically)",
-  category: "Tourist / Business / Transit",
+  validity: "30 Days (from arrival)",
+  stay: "30 Days",
+  category: "Tourist / Business",
   documents: [
     "Passport Scanned Copy (valid 6+ months)",
     "Scanned Photo (white background)",
     "CNIC Photo Copy"
   ],
-  note: "This is the fastest and easiest method. O.S. Travel & Tours can process this for you.",
+  note: "This is the official online visa. O.S. Travel & Tours processes this for you. Fees are non-refundable.",
   isSticker: false
-};
-
-const touristStickerVisa = {
-  title: "Tourist Sticker Visa",
-  subtitle: "From the High Commission",
-  totalFee: "PKR 15,000",
-  processingTime: "14 Working Days",
-  validity: "Varies",
-  stay: "30 Days",
-  category: "Double Entry",
-  documents: [
-    "Original Passport (valid 6+ months)",
-    "04 Pictures with White Background",
-    "CNIC Photo Copy",
-    "Last Six Month Bank Statement",
-    "Bank Account Maintenance Letter",
-    "NTN (National Tax No.)",
-    "Visa Request Letter",
-    "Confirm Return Air Ticket",
-    "Hotel Booking"
-  ],
-  note: "In Case Of Visa Refuse / Rejection Fee and Services Charges Will Not Be Refundable.",
-  isSticker: true
-};
-
-// --- NEWLY ADDED ---
-const businessStickerVisa = {
-  title: "Business Sticker Visa",
-  subtitle: "From the High Commission",
-  totalFee: "PKR 20,000",
-  processingTime: "14 Working Days",
-  validity: "Varies",
-  stay: "30 Days",
-  category: "Multiple Entry",
-  documents: [
-    "Original Passport (valid 6+ months)",
-    "04 Pictures with White Background",
-    "CNIC Photo Copy",
-    "Last Six Month Bank Statement",
-    "Bank Account Maintenance Letter",
-    "Business Invitation Letter", // Assumed addition for business
-    "Company's NTN & Tax Returns",
-    "Visa Request Letter on Company Letterhead",
-    "Confirm Return Air Ticket",
-    "Hotel Booking"
-  ],
-  note: "For business travelers requiring multiple entries. Fee is non-refundable.",
-  isSticker: true
 };
 
 const highCommissionInfo = {
@@ -84,22 +33,23 @@ const highCommissionInfo = {
   address: "House No.24, Street No.89, G 6/3, Islamabad, Pakistan",
   phone: "0092 – 51- 2828723",
   email: "slhc.islamabad@mfa.gov.lk",
-  website: "www.slhcpakistan.org"
+  website: "www.slhcpakistan.org",
+  note: "Visas are processed online (ETA). The High Commission handles specific consular matters."
 };
 
 // --- Sri Lanka-Specific FAQs ---
 const faqs = [
   {
     q: "What is the Sri Lanka ETA?",
-    a: "The ETA (Electronic Travel Authorization) is the official online visa system for Sri Lanka. It's the simplest and most recommended way to get a visa, as you only need to submit scanned documents."
+    a: "The ETA (Electronic Travel Authorization) is the official online visa system for Sri Lanka. It is the only method we currently process as it is the fastest and simplest way to get a visa."
   },
   {
     q: "Can I get a visa on arrival?",
-    a: "While some nationalities can, it is highly recommended for Pakistani citizens to obtain the ETA (e-visa) *before* traveling to ensure a smooth entry process."
+    a: "While visa on arrival exists for some nations, it is highly recommended for Pakistani citizens to obtain the ETA (e-visa) *before* traveling to avoid hassles or denial at the airport."
   },
   {
-    q: "What is the difference between the Tourist and Business sticker visas?",
-    a: "The Tourist sticker visa (PKR 15,000) is for tourism and offers double entry. The Business sticker visa (PKR 20,000) is for work-related meetings, requires a business invitation, and allows for multiple entries."
+    q: "How long does the Sri Lanka ETA take?",
+    a: "The processing time for the ETA is listed as 07 to 15 days. It is best to apply at least two weeks before your intended travel date."
   }
 ];
 
@@ -112,12 +62,12 @@ const reviews = [
   },
   {
     name: "Bilal M.",
-    quote: "I used O.S. Travel for my honeymoon package to Sri Lanka. They handled the visas, flights, and all the hotel bookings. We had a wonderful and stress-free time.",
+    quote: "I used O.S. Travel for my honeymoon package to Sri Lanka. They handled the E-Visas, flights, and all the hotel bookings. We had a wonderful and stress-free time.",
     rating: 5
   },
   {
     name: "Rizwan Traders",
-    quote: "Applied for a business sticker visa. The team at O.S. was very professional and guided me on all the documents needed. Visa was approved without any issues.",
+    quote: "I needed a quick business entry. O.S. Travel processed my ETA efficiently. Good service and affordable rates.",
     rating: 5
   }
 ];
@@ -161,19 +111,17 @@ function Srilanka() {
             Sri Lanka Visa
           </h1>
           <p className="text-xl text-gray-600">
-            Visa Requirements for Pakistani Citizens
+            E-Visa (ETA) Processing for Pakistani Citizens
           </p>
         </div>
       </motion.div>
 
-      {/* 2. Visa Comparison Grid - UPDATED to 3 columns */}
+      {/* 2. Visa Comparison Grid - Single Column now */}
       <motion.div
         variants={itemVariants}
-        className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+        className="grid grid-cols-1"
       >
         <VisaCard visa={eVisa} />
-        <VisaCard visa={touristStickerVisa} />
-        <VisaCard visa={businessStickerVisa} />
       </motion.div>
 
       {/* 3. High Commission Information */}
@@ -199,6 +147,12 @@ function Srilanka() {
             <span><strong>Email:</strong> <a href={`mailto:${highCommissionInfo.email}`} className="text-blue-600 hover:underline">{highCommissionInfo.email}</a></span>
           </li>
         </ul>
+        <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+          <div className="flex items-center gap-3">
+            <FaExclamationTriangle className="text-xl shrink-0" />
+            <p className="font-semibold">{highCommissionInfo.note}</p>
+          </div>
+        </div>
       </motion.div>
 
       {/* 4. About O.S. Travel Section */}
@@ -211,7 +165,7 @@ function Srilanka() {
         </h2>
         <p className="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
           As one of the "best and finest" travel agencies for Sri Lanka, we make your visa process smooth and stress-free.
-          <strong className="text-gray-800"> We deal in a wide range of services</strong> for your perfect island getaway.
+          <strong className="text-gray-800"> We deal in complete E-Visa/ETA processing</strong> for your perfect island getaway.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <ServiceCard
@@ -282,29 +236,14 @@ function Srilanka() {
  * A card component to display details for a single visa type.
  */
 const VisaCard = ({ visa }) => {
-  // Check if it's the business visa to apply the correct icon
-  const isBusiness = visa.title.includes("Business");
-  
-  // Determine border, text color, and icon based on type
-  let borderColor, textColor, icon;
-  
-  if (!visa.isSticker) { // E-Visa (Recommended)
-    borderColor = "border-green-500";
-    textColor = "text-green-500";
-    icon = <FaLaptopCode />;
-  } else if (isBusiness) { // Business Sticker Visa
-    borderColor = "border-purple-500"; // Changed to purple to differentiate
-    textColor = "text-purple-500";
-    icon = <FaBriefcase />;
-  } else { // Tourist Sticker Visa
-    borderColor = "border-blue-500";
-    textColor = "text-blue-500";
-    icon = <FaPassport />;
-  }
+  // E-Visa Theme
+  const borderColor = "border-green-500";
+  const textColor = "text-green-500";
+  const icon = <FaLaptopCode />;
 
   return (
     <div className={`bg-white rounded-lg shadow-xl overflow-hidden border-t-8 ${borderColor} flex flex-col`}>
-      <div className="p-6 md:p-8 flex flex-col grow">
+      <div className="p-6 md:p-8 flex flex-col grow"> {/* Use grow */}
         
         {/* Card Header */}
         <div className="flex items-center gap-3 mb-4">
@@ -321,6 +260,7 @@ const VisaCard = ({ visa }) => {
           <DetailItem icon={<FaClock className="text-red-600" />} label="Processing Time" value={visa.processingTime} />
           <DetailItem icon={<FaCalendarAlt className="text-blue-600" />} label="Validity" value={visa.validity} />
           <DetailItem icon={<FaCalendarAlt className="text-purple-600" />} label="Stay Duration" value={visa.stay} />
+          <DetailItem icon={<FaPassport className="text-gray-600" />} label="Category" value={visa.category} />
         </div>
 
         {/* Documents List */}
@@ -338,14 +278,12 @@ const VisaCard = ({ visa }) => {
         </ul>
 
         {/* Note */}
-        {visa.note && (
-          <div className={`p-4 mt-auto ${!visa.isSticker ? 'bg-green-50 border-l-4 border-green-400 text-green-800' : 'bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800'}`}>
+        <div className={`p-4 mt-auto bg-green-50 border-l-4 border-green-400 text-green-800`}>
             <div className="flex items-center gap-3">
-              {!visa.isSticker ? <FaCheckCircle className="text-xl shrink-0" /> : <FaExclamationTriangle className="text-xl shrink-0" />}
+              <FaCheckCircle className="text-xl shrink-0" />
               <p className="font-semibold">{visa.note}</p>
             </div>
-          </div>
-        )}
+        </div>
 
       </div>
     </div>
@@ -357,7 +295,7 @@ const VisaCard = ({ visa }) => {
  */
 const DetailItem = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
-    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div> {/* Use shrink-0 */}
+    <div className="text-2xl text-gray-600 mt-1 shrink-0">{icon}</div>
     <div>
       <p className="text-sm font-semibold text-gray-500">{label}</p>
       <p className="text-lg font-bold text-gray-800">{value}</p>
@@ -383,7 +321,7 @@ const AccordionItem = ({ q, a }) => {
           transition={{ duration: 0.3 }}
           className="text-gray-500"
         >
-          <FaChevronDown className="shrink-0" /> {/* Use shrink-0 */}
+          <FaChevronDown className="shrink-0" />
         </motion.div>
       </button>
       <AnimatePresence>

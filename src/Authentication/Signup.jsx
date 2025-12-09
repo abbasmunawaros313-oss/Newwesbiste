@@ -1,12 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
 import { motion } from "framer-motion";
-import logo from "../assets/logoimg/image.png"; // Your logo
+import logo from "../assets/logoimg/image.png";
 
-// --- Icons (from react-icons) ---
-// Make sure to install: npm install react-icons
+// --- Firebase Helpers ---
+// Importing the helpers we created in firebase.js
+import { signUp, signInWithGoogle } from "../firbase";
+
+// --- Icons ---
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
-import { MdEmail, MdLock, MdPerson } from "react-icons/md"; // Added MdPerson
+import { MdEmail, MdLock, MdPerson } from "react-icons/md";
 
 // --- Animation Variants ---
 const containerVariants = {
@@ -33,6 +36,60 @@ const itemVariants = {
 
 // --- Main Component ---
 function Signup() {
+  const navigate = useNavigate();
+
+  // 1. State for form inputs and UI feedback
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "Sign Up - O.S Travel & Tours";
+  }, []);
+
+  // 2. Handle Email/Password Sign Up
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      // Uses the helper from firebase.js which also sets the Display Name
+      await signUp(email, password, name);
+      // Success: Redirect to home
+      navigate("/");
+    } catch (err) {
+      console.error("Signup Error:", err);
+      if (err.code === "auth/email-already-in-use") {
+        setError("This email is already registered. Please sign in.");
+      } else if (err.code === "auth/weak-password") {
+        setError("Password should be at least 6 characters.");
+      } else {
+        setError("Failed to create account. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 3. Handle Google Sign Up (Same as Login)
+  const handleGoogleSignup = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      await signInWithGoogle();
+      navigate("/");
+    } catch (err) {
+      console.error("Google Signup Error:", err);
+      setError("Failed to sign up with Google.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <motion.div
@@ -44,7 +101,7 @@ function Signup() {
         {/* --- 1. Image Panel (Left Side) --- */}
         <div className="hidden lg:block lg:w-1/2 relative">
           <img
-            src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?q=80&w=1966&auto=format&fit=crop" // Beautiful Venice image
+            src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?q=80&w=1966&auto=format&fit=crop"
             alt="Canal in Venice, Italy"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -75,7 +132,7 @@ function Signup() {
         {/* --- 2. Form Panel (Right Side) --- */}
         <div className="w-full lg:w-1/2 p-8 md:p-12">
           <motion.div
-            variants={containerVariants} // Stagger children
+            variants={containerVariants}
             className="flex flex-col"
           >
             {/* Logo */}
@@ -100,8 +157,23 @@ function Signup() {
               Join us and start planning your next adventure.
             </motion.p>
 
+            {/* Error Banner */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 text-sm rounded-lg"
+              >
+                {error}
+              </motion.div>
+            )}
+
             {/* Form */}
-            <motion.form variants={itemVariants} className="space-y-5">
+            <motion.form 
+              variants={itemVariants} 
+              className="space-y-5"
+              onSubmit={handleSignup}
+            >
               {/* Full Name Input */}
               <div>
                 <label
@@ -121,6 +193,8 @@ function Signup() {
                     autoComplete="name"
                     required
                     placeholder="John Doe"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 p-3 pl-10 text-gray-900 shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -146,6 +220,8 @@ function Signup() {
                     autoComplete="email"
                     required
                     placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 p-3 pl-10 text-gray-900 shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -171,6 +247,8 @@ function Signup() {
                     autoComplete="new-password"
                     required
                     placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 p-3 pl-10 text-gray-900 shadow-sm
                                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -180,11 +258,12 @@ function Signup() {
               {/* Sign Up Button */}
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg
+                disabled={loading}
+                className={`w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg
                            hover:bg-blue-700 transition-all duration-300
-                           transform hover:scale-105"
+                           transform hover:scale-105 ${loading ? "opacity-70 cursor-wait" : ""}`}
               >
-                Create Account
+                {loading ? "Creating Account..." : "Create Account"}
               </button>
             </motion.form>
 
@@ -206,6 +285,9 @@ function Signup() {
               className="grid grid-cols-2 gap-4"
             >
               <button
+                type="button" // Important: type="button" to prevent form submit
+                onClick={handleGoogleSignup}
+                disabled={loading}
                 className="flex items-center justify-center gap-2 w-full bg-white border border-gray-300
                            text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm
                            hover:bg-gray-50 transition-all"
@@ -213,7 +295,10 @@ function Signup() {
                 <FaGoogle className="text-red-500" />
                 Google
               </button>
+              
+              {/* Facebook (Placeholder) */}
               <button
+                type="button"
                 className="flex items-center justify-center gap-2 w-full bg-white border border-gray-300
                            text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm
                            hover:bg-gray-50 transition-all"

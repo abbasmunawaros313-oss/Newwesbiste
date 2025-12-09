@@ -17,10 +17,10 @@ import {
 
 const processingService = {
   title: "South Africa Visitor Visa",
-  subtitle: "Complete File Processing Service",
+  subtitle: "Complete File Processing Service and appointment booking",
   // --- UPDATED FEES ---
   visaFee: "PKR 3,300 - 5,300 (Varies)", // "visa 3300 to 5300 pkr varies"
-  serviceCharge: "PKR 50,000", // "file + appoimet 50000"
+  serviceCharge: "Processing Service PKR 25000 and appointment booking PKR 25000", // "file + appoimet 50000"
   // ---
   processingTime: "10-15 Working Days (After Appointment)",
   validity: "Up to 3 Months",

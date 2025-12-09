@@ -289,7 +289,7 @@ const PurchasePolicyPage = () => {
     // ... inside handleSubmit ...
 
     try {
-      const response = await fetch('http://localhost:5002/api/uic/policy/create', {
+      const response = await fetch('https://uicbackend-production.up.railway.app/api/uic/policy/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

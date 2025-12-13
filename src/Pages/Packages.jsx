@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Icons
-import { FaPlane, FaShieldAlt, FaSuitcase, FaChevronDown, FaFilePdf, FaCheck, FaTimes, FaRegCreditCard, FaArrowRight } from "react-icons/fa";
-import { MdRefresh, MdFilterList, MdCoronavirus, MdOutlineHealthAndSafety } from "react-icons/md";
+import { FaPlane, FaShieldAlt, FaSuitcase, FaChevronDown, FaFilePdf, FaCheck, FaTimes, FaRegCreditCard, FaArrowRight, FaGlobeAmericas, FaPassport } from "react-icons/fa";
+import { MdRefresh, MdFilterList, MdCoronavirus, MdOutlineHealthAndSafety, MdLocationOn } from "react-icons/md";
 import { BiSearchAlt } from "react-icons/bi";
 
 const Packages = () => {
@@ -19,6 +19,9 @@ const Packages = () => {
   const [priceRange, setPriceRange] = useState(500000); // Max Price Default
   const [planType, setPlanType] = useState("All"); 
   const [covidCovered, setCovidCovered] = useState(false);
+  
+  // NEW: Region Filter State
+  const [selectedRegion, setSelectedRegion] = useState("All");
 
   // --- STATE FOR MODALS ---
   const [showConfirm, setShowConfirm] = useState(false);
@@ -28,17 +31,22 @@ const Packages = () => {
   useEffect(() => {
     let result = packages || [];
 
-    // 1. Filter by Plan Type
+    // 1. Filter by Region (AreaShortCode: SCH, WW, ROW)
+    if (selectedRegion !== "All") {
+        result = result.filter((pkg) => pkg.AreaShortCode === selectedRegion);
+    }
+
+    // 2. Filter by Plan Type (S = Individual, F = Family)
     if (planType === "Family") {
       result = result.filter((pkg) => pkg.PlanType === "F");
     } else if (planType === "Individual") {
-      result = result.filter((pkg) => pkg.PlanType !== "F");
+      result = result.filter((pkg) => pkg.PlanType === "S" || pkg.PlanType !== "F");
     }
 
-    // 2. Filter by Price (Range: 999 to Selected Max)
-    result = result.filter((pkg) => pkg.TotalPayablePremium >= 999 && pkg.TotalPayablePremium <= priceRange);
+    // 3. Filter by Price (TotalPayablePremium)
+    result = result.filter((pkg) => pkg.TotalPayablePremium >= 1 && pkg.TotalPayablePremium <= priceRange);
 
-    // 3. Filter by Covid
+    // 4. Filter by Covid
     if (covidCovered) {
       result = result.filter((pkg) => {
         const covidStatus = (pkg.Covid || "").toLowerCase();
@@ -47,12 +55,13 @@ const Packages = () => {
     }
 
     setFilteredPackages(result);
-  }, [packages, priceRange, planType, covidCovered]);
+  }, [packages, priceRange, planType, covidCovered, selectedRegion]);
 
   const handleReset = () => {
     setPriceRange(500000);
     setPlanType("All");
     setCovidCovered(false);
+    setSelectedRegion("All");
   };
 
   const formatMoney = (amount) => {
@@ -64,14 +73,11 @@ const Packages = () => {
   };
 
   // --- HANDLERS ---
-  
-  // 1. Click "Select Plan" -> Open Confirmation Modal
   const initiateBuy = (pkg) => {
     setSelectedPkg(pkg);
     setShowConfirm(true);
   };
 
-  // 2. Confirm -> Navigate to Purchase
   const proceedToPurchase = () => {
     if (selectedPkg) {
       navigate("/purchase", {
@@ -115,19 +121,18 @@ const Packages = () => {
                     <div className="p-6 space-y-4">
                         <div className="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border border-blue-100">
                              <div className="h-12 w-12 bg-white rounded-lg p-2 shadow-sm flex items-center justify-center">
-                                {/* Use same logo logic or simple icon */}
                                 <FaShieldAlt className="text-blue-600 text-xl" />
                              </div>
                              <div>
-                                 <h4 className="font-bold text-slate-800 text-sm">{selectedPkg.Plan}</h4>
-                                 <p className="text-xs text-blue-600 font-semibold">{selectedPkg.AreaShortCode || "Worldwide"}</p>
+                                 <h4 className="font-bold text-slate-800 text-sm">{selectedPkg.Plan} Plan</h4>
+                                 <p className="text-xs text-blue-600 font-semibold">{selectedPkg.Area}</p>
                              </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 text-sm">
                             <div className="p-3 bg-slate-50 rounded-lg">
-                                <span className="text-xs text-slate-500 block">Medical Cover</span>
-                                <span className="font-bold text-slate-800">{selectedPkg.MedicalCover}</span>
+                                <span className="text-xs text-slate-500 block">Duration</span>
+                                <span className="font-bold text-slate-800">{selectedPkg.Duration} {selectedPkg.DurationUnit}</span>
                             </div>
                             <div className="p-3 bg-slate-50 rounded-lg">
                                 <span className="text-xs text-slate-500 block">Total Premium</span>
@@ -159,14 +164,14 @@ const Packages = () => {
       {/* --- MAIN LAYOUT --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 flex flex-col lg:flex-row gap-8">
         
-        {/* === LEFT SIDEBAR === */}
+        {/* === LEFT SIDEBAR FILTERS === */}
         <div className="w-full lg:w-1/4 space-y-6">
           
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hidden lg:block sticky top-6"
+            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-6"
           >
             <div className="flex justify-between items-center mb-6">
                <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
@@ -175,6 +180,34 @@ const Packages = () => {
                <button onClick={handleReset} className="text-blue-600 text-xs font-bold hover:underline flex items-center gap-1 bg-blue-50 px-2 py-1 rounded">
                  <MdRefresh /> Reset
                </button>
+            </div>
+
+            {/* NEW: Region Filter */}
+            <div className="mb-8">
+              <p className="font-bold text-xs text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1">
+                 <MdLocationOn /> Destination
+              </p>
+              <div className="flex flex-col gap-2">
+                {[
+                    { label: "All Regions", value: "All" },
+                    { label: "Schengen", value: "SCH" },
+                    { label: "Worldwide", value: "WW" },
+                    { label: "Rest of World", value: "ROW" }
+                ].map((region) => (
+                  <button
+                    key={region.value}
+                    onClick={() => setSelectedRegion(region.value)}
+                    className={`w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl border transition-all duration-200 flex justify-between items-center ${
+                      selectedRegion === region.value 
+                      ? "bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200" 
+                      : "bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    {region.label}
+                    {selectedRegion === region.value && <FaCheck />}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Plan Type */}
@@ -223,7 +256,7 @@ const Packages = () => {
               
               <input 
                 type="range" 
-                min="999" 
+                min="1" 
                 max="500000"
                 step="1000"
                 className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700"
@@ -231,8 +264,8 @@ const Packages = () => {
                 onChange={(e) => setPriceRange(Number(e.target.value))}
               />
               <div className="flex justify-between mt-2 text-[10px] text-slate-400 font-medium">
-                  <span>PKR 999</span>
-                  <span>PKR 5 Lac+</span>
+                  <span>Min</span>
+                  <span>Max</span>
               </div>
             </div>
           </motion.div>
@@ -247,8 +280,8 @@ const Packages = () => {
             className="flex flex-col sm:flex-row justify-between items-end sm:items-center mb-6 gap-4"
           >
             <div>
-                <h1 className="text-2xl font-bold text-slate-900">Select Your Plan</h1>
-                <p className="text-sm text-slate-500 mt-1">Found {filteredPackages.length} options matching your criteria</p>
+                <h1 className="text-2xl font-bold text-slate-900">Available Packages</h1>
+                <p className="text-sm text-slate-500 mt-1">Found {filteredPackages.length} options for your trip</p>
             </div>
             
             <motion.button 
@@ -281,7 +314,7 @@ const Packages = () => {
                       </div>
                       <h3 className="text-xl font-bold text-slate-800 mb-2">No Plans Found</h3>
                       <p className="text-slate-500 text-sm max-w-xs mx-auto mb-6">
-                          We couldn't find any packages in this price range. Try increasing your budget.
+                          We couldn't find any packages matching your filters. Try selecting "All Regions" or increasing your price limit.
                       </p>
                       <button 
                         onClick={handleReset} 
@@ -293,25 +326,6 @@ const Packages = () => {
               )}
             </AnimatePresence>
           </div>
-
-           {/* Disclaimer */}
-           <motion.div 
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ delay: 0.5 }}
-             className="mt-8 bg-blue-50 p-6 rounded-xl border border-blue-100 flex gap-4 items-start"
-           >
-                <div className="bg-blue-100 p-2 rounded-lg text-blue-600 shrink-0">
-                    <FaShieldAlt />
-                </div>
-                <div>
-                    <p className="text-sm font-bold text-blue-900 mb-1">Important Information</p>
-                    <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
-                        <li>Travel Insurance is fully refundable only in case of Visa rejection (Proof required).</li>
-                        <li>Trip cancellations due to Covid-19 are not eligible for policy refunds.</li>
-                    </ul>
-                </div>
-           </motion.div>
         </div>
       </div>
     </div>
@@ -322,26 +336,26 @@ const Packages = () => {
 const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Logo Logic
+  // Determine Logo
   const getLogo = () => {
-    const pName = (pkg.Plan || "").toLowerCase();
-    const cName = (pkg.Company || "").toLowerCase();
-
-    // UIC Image
-    if (pName.includes("united") || cName.includes("united") || pName.includes("uic")) {
-       return "https://d1e6cjojnyo6nm.cloudfront.net/provider_small_images/gnGorQsh.jpg";
-    }
-    // Adamjee
-    if (pName.includes("adamjee") || cName.includes("adamjee")) {
-        return "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Adamjee_Group_Logo.jpg/800px-Adamjee_Group_Logo.jpg";
-    }
-    // Habib
-    if (pName.includes("habib") || cName.includes("habib")) {
-        return "https://seeklogo.com/images/H/habib-insurance-logo-8A11B4C93B-seeklogo.com.png";
-    }
-    // Default
-    return "https://www.theunitedinsurance.com/wp-content/uploads/2024/05/uic-logo-png.png"; 
+    // Basic logic to pick logo based on FullName text if available
+    const name = (pkg.FullName || "").toLowerCase();
+    if (name.includes("adamjee")) return "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Adamjee_Group_Logo.jpg/800px-Adamjee_Group_Logo.jpg";
+    if (name.includes("habib")) return "https://seeklogo.com/images/H/habib-insurance-logo-8A11B4C93B-seeklogo.com.png";
+    return "https://www.theunitedinsurance.com/wp-content/uploads/2024/05/uic-logo-png.png"; // Default to UIC
   };
+
+  // Determine Region Badge Color
+  const getRegionBadge = (code) => {
+      switch(code) {
+          case 'SCH': return { label: 'Schengen', color: 'bg-indigo-100 text-indigo-700' };
+          case 'WW': return { label: 'Worldwide', color: 'bg-purple-100 text-purple-700' };
+          case 'ROW': return { label: 'Rest of World', color: 'bg-amber-100 text-amber-700' };
+          default: return { label: pkg.Area || 'Universal', color: 'bg-blue-100 text-blue-700' };
+      }
+  }
+
+  const badge = getRegionBadge(pkg.AreaShortCode);
 
   return (
     <motion.div 
@@ -356,12 +370,14 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
         
         {/* COL 1: Logo & Plan Identity */}
         <div className="w-full md:w-1/4 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-100 bg-slate-50/50">
-           <div className="h-16 w-32 mb-4 flex items-center justify-center bg-white rounded-xl p-2 shadow-sm border border-slate-100">
-             <img src={getLogo()} alt="Insurance Logo" className="w-full h-full object-contain" /> 
+           <div className="h-14 w-auto mb-4 flex items-center justify-center">
+             <img src={getLogo()} alt="Insurance Logo" className="h-full object-contain mix-blend-multiply" /> 
            </div>
-           <h3 className="text-sm font-extrabold text-slate-800 text-center uppercase tracking-wide leading-tight px-2">{pkg.Plan}</h3>
-           <span className="text-[10px] uppercase font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full mt-3 tracking-wider">
-             {pkg.AreaShortCode || "Worldwide"}
+           <h3 className="text-lg font-black text-slate-800 text-center uppercase tracking-wide leading-tight">{pkg.Plan}</h3>
+           <p className="text-xs text-slate-500 font-semibold mb-3">{pkg.PlanType === "F" ? "Family Plan" : "Individual Plan"}</p>
+           
+           <span className={`text-[10px] uppercase font-bold px-3 py-1 rounded-full tracking-wider flex items-center gap-1 ${badge.color}`}>
+             <FaGlobeAmericas /> {badge.label}
            </span>
         </div>
 
@@ -369,48 +385,49 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
         <div className="w-full md:w-2/4 p-6 flex flex-col justify-center">
           <div className="grid grid-cols-2 gap-y-6 gap-x-8">
              
-             {/* Feature 1: Medical */}
+             {/* Duration */}
              <div className="flex items-start gap-3">
                 <div className="mt-0.5 p-1.5 bg-blue-50 text-blue-600 rounded-lg shrink-0">
-                    <MdOutlineHealthAndSafety className="text-lg" />
-                </div>
-                <div>
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Medical Cover</p>
-                    <p className="text-sm font-bold text-slate-800">{pkg.MedicalCover || "$50,000"}</p>
-                </div>
-             </div>
-
-             {/* Feature 2: Duration */}
-             <div className="flex items-start gap-3">
-                <div className="mt-0.5 p-1.5 bg-purple-50 text-purple-600 rounded-lg shrink-0">
                     <FaPlane className="text-lg" />
                 </div>
                 <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Duration</p>
-                    <p className="text-sm font-bold text-slate-800">{pkg.Duration || "30"} days</p>
+                    <p className="text-sm font-bold text-slate-800">{pkg.Duration} {pkg.DurationUnit}</p>
                 </div>
              </div>
 
-             {/* Feature 3: Baggage */}
+             {/* Coverage (Mocked or from API if available) */}
              <div className="flex items-start gap-3">
-                 <div className="mt-0.5 p-1.5 bg-amber-50 text-amber-600 rounded-lg shrink-0">
-                    <FaSuitcase className="text-lg" />
+                 <div className="mt-0.5 p-1.5 bg-purple-50 text-purple-600 rounded-lg shrink-0">
+                    <MdOutlineHealthAndSafety className="text-lg" />
                  </div>
                  <div>
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Baggage Loss</p>
-                    <p className="text-sm font-bold text-slate-800">$500</p>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Medical Limit</p>
+                    {/* Note: API JSON didn't have MedicalLimit, using placeholder or derived logic */}
+                    <p className="text-sm font-bold text-slate-800">{pkg.MedicalCover || "Standard Limit"}</p>
                  </div>
              </div>
 
-             {/* Feature 4: Covid */}
+             {/* Age */}
              <div className="flex items-start gap-3">
-                <div className="mt-0.5 p-1.5 bg-emerald-50 text-emerald-600 rounded-lg shrink-0">
+                 <div className="mt-0.5 p-1.5 bg-amber-50 text-amber-600 rounded-lg shrink-0">
+                    <FaPassport className="text-lg" />
+                 </div>
+                 <div>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Traveler Age</p>
+                    <p className="text-sm font-bold text-slate-800">{pkg.TravelerAge} Years</p>
+                 </div>
+             </div>
+
+             {/* Covid */}
+             <div className="flex items-start gap-3">
+                <div className={`mt-0.5 p-1.5 rounded-lg shrink-0 ${pkg.Covid === 'Covered' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
                     <MdCoronavirus className="text-lg" />
                 </div>
                 <div>
                     <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">Covid-19</p>
-                    <p className={`text-sm font-bold ${pkg.Covid === "Covered" ? "text-emerald-600" : "text-slate-800"}`}>
-                        {pkg.Covid || "Included"}
+                    <p className={`text-sm font-bold ${pkg.Covid === "Covered" ? "text-emerald-600" : "text-slate-500"}`}>
+                        {pkg.Covid || "Not Covered"}
                     </p>
                 </div>
              </div>
@@ -423,7 +440,7 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="group flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors"
              >
-               {isExpanded ? "Hide Details" : "View More Details"}
+               {isExpanded ? "Hide Details" : "View Policy Breakdown"}
                <motion.span
                  animate={{ rotate: isExpanded ? 180 : 0 }}
                  transition={{ duration: 0.2 }}
@@ -441,6 +458,7 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
                 <h4 className="text-3xl font-extrabold text-slate-800 group-hover:text-blue-700 transition-colors">
                     {formatMoney(pkg.TotalPayablePremium).replace("PKR", "").trim()}<span className="text-xs font-bold text-slate-400 ml-1">PKR</span>
                 </h4>
+                {pkg.AdvanceTax > 0 && <span className="text-[10px] text-slate-400">+ Tax Included</span>}
            </div>
 
            <div className="w-full space-y-3">
@@ -452,9 +470,6 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
              >
                 Select Plan <FaRegCreditCard />
              </motion.button>
-             <button className="w-full py-2.5 px-4 bg-white text-slate-600 border border-slate-200 text-xs font-bold rounded-xl hover:bg-white hover:text-blue-600 hover:border-blue-200 transition-colors">
-                Enquire Now
-             </button>
            </div>
         </div>
       </div>
@@ -471,39 +486,42 @@ const HorizontalCard = ({ pkg, onBuy, formatMoney, idx }) => {
           >
             <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-sm">
                 
-                {/* 1. Policy Limits */}
+                {/* 1. Policy Financials */}
                 <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
                     <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Policy Limits
+                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Cost Breakdown
                     </h4>
                     <ul className="space-y-3">
+                        <DetailRow label="Net Premium" value={formatMoney(pkg.Premium || 0)} />
                         <DetailRow label="Gross Premium" value={formatMoney(pkg.GrossPremium || 0)} />
-                        <DetailRow label="Net Premium" value={formatMoney(pkg.NetPremium || pkg.GrossPremium)} />
-                        <DetailRow label="Tax Amount" value={formatMoney((pkg.TotalPayablePremium - pkg.GrossPremium) || 0)} />
+                        <DetailRow label="Advance Tax" value={formatMoney(pkg.AdvanceTax || 0)} />
+                        <DetailRow label="Stamp Duty/Fees" value={formatMoney((pkg.TotalPayablePremium - pkg.GrossPremium) || 0)} />
                     </ul>
                 </div>
 
-                {/* 2. Key Benefits */}
+                {/* 2. Traveler Info */}
                 <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
                     <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
-                         <span className="w-2 h-2 bg-emerald-500 rounded-full"></span> Benefits
+                         <span className="w-2 h-2 bg-emerald-500 rounded-full"></span> Traveler Details
                     </h4>
                     <ul className="space-y-3">
-                        <DetailRow label="Emergency Medical" value={pkg.MedicalCover || "$50,000"} />
-                        <DetailRow label="Repatriation" value="Covered" />
-                        <DetailRow label="Family Plan" value={pkg.PlanType === "F" ? "Yes" : "No"} />
+                        <DetailRow label="Name" value={pkg.TravelerName} />
+                        <DetailRow label="CNIC" value={pkg.TravelerNICNo} />
+                        <DetailRow label="Date of Birth" value={pkg.TravelerDOB?.split('T')[0]} />
+                        <DetailRow label="Tax Payer Status" value={pkg.IsTaxPayer === "1" ? "Active" : "Inactive"} />
                     </ul>
                 </div>
 
-                {/* 3. Additional Info */}
+                {/* 3. System Info */}
                 <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
                      <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
-                         <span className="w-2 h-2 bg-purple-500 rounded-full"></span> System Info
+                         <span className="w-2 h-2 bg-purple-500 rounded-full"></span> System Data
                      </h4>
                      <ul className="space-y-3">
-                        <DetailRow label="Company ID" value={pkg.CompanyId || "N/A"} />
-                        <DetailRow label="System Rate ID" value={pkg.RateId || "N/A"} />
-                        <DetailRow label="Age Bracket" value={`${pkg.TravelerAge || "18-65"} Years`} />
+                        <DetailRow label="Area Code" value={pkg.AreaShortCode} />
+                        <DetailRow label="Plan ID" value={pkg.Plan} />
+                        <DetailRow label="Response Code" value={pkg.ResponseCode} />
+                        <DetailRow label="Validity" value={`Until ${pkg.ExpDate?.split(' ')[0]}`} />
                      </ul>
                 </div>
             </div>

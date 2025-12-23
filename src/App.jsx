@@ -3,8 +3,8 @@ import './index.css';
 import ScrollToTop from './StateManagement/ScrollToTop';
 
 // --- Auth Imports ---
-import { AuthProvider } from './Context/AuthContext'; // 1. Provider
-import RequireAuth from './Context/RequireAuht';   // 2. Route Protector
+import { AuthProvider } from './Context/AuthContext';
+import RequireAuth from './Context/RequireAuht';
 
 import Navbar from './Components/Navbar';
 import Home from './Pages/Home';
@@ -23,33 +23,32 @@ import Signup from './Authentication/Signup';
 import Packages from './Pages/Packages';
 import HandlePurchase from './Pages/HandlePurchase';
 import BookingConfirmation from './Pages/BookingConfirmation';
+import AlfaPayment from './Components/AlfaPayment';
+import PaymentReturn from './Pages/PaymentReturn';
 
 function App() {
   return (
     <>
-      {/* 3. Wrap everything in AuthProvider so the user state is available globally */}
       <AuthProvider>
-      
-        {/* Navbar stays visible on every page */}
+        <ScrollToTop />
         <Navbar />
 
-        {/* Route-based pages */}
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/fileprocessing" element={<FilePorocessing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/visas" element={<Visas />} />
           <Route path="/haj" element={<HajandUmmrah />} />
+          <Route path="/countries/:country" element={<CountryPage />} />
           
-          {/* Public Auth Routes */}
+          {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           
+          {/* Package & Purchase Routes */}
           <Route path="/packages" element={<Packages />} />
-
-          {/* 4. PROTECTED ROUTE: /purchase */}
-          {/* If they are not logged in, they will be sent to Login, then back here */}
           <Route 
             path="/purchase" 
             element={
@@ -58,12 +57,15 @@ function App() {
               </RequireAuth>
             } 
           />
-
+          
+          {/* Payment Flow Routes */}
+          <Route path="/paypage" element={<AlfaPayment />} />
+          
+          {/* IMPORTANT: Bank Alfalah redirects here after payment */}
+          <Route path="/payment-return" element={<PaymentReturn />} />
+          
+          {/* Final confirmation page (after PaymentReturn processes everything) */}
           <Route path="/bookingconfirmation" element={<BookingConfirmation />} />
-
-          {/* Country Routes */}
-          <Route path="/countries/:country" element={<CountryPage />} />
-         
         </Routes>
         
         <Footer/>

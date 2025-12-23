@@ -129,7 +129,7 @@ export default function PaymentReturn() {
   // Call UIC API to create policy
   const createUICPolicy = async (policyData) => {
     try {
-      const response = await fetch('http://localhost:3004/api/uic/create-policy', {
+      const response = await fetch('https://uicbackend-production.up.railway.app/api/uic/policy/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(policyData)
